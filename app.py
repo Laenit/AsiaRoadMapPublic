@@ -151,7 +151,7 @@ if "places" in st.session_state and st.session_state.places:
             folium.GeoJson(
                 data=feature['geometry'],
                 style_function=lambda x: {'color': 'red', 'weight': 4, 'opacity': 0.7},
-                tooltip=f"⏱️ {format_duration_hm(duration)} h de trajet"
+                tooltip=f"⏱️ {format_duration_hm(duration)} de trajet"
             ).add_to(m)
 
     st.subheader("🗺️ Carte interactive")
