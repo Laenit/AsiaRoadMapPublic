@@ -35,8 +35,7 @@ def parse_kml_from_url(url, layer_name_keyword="etapes"):
                 for placemark in folder.findall('.//kml:Placemark', namespaces=ns):
                     name = placemark.findtext('kml:name', default='(sans nom)', namespaces=ns)
                     desc = placemark.findtext('kml:description', default='', namespaces=ns)
-                    coords_text = placemark.findtext('.//kml:coordinates', default='', namespaces=ns)
-                    coords_text = coords_text.strip()
+                    coords_text = placemark.findtext('.//kml:coordinates', default='', namespaces=ns).strip()
                     try:
                         lon, lat, *_ = map(float, coords_text.split(','))
                     except Exception:
@@ -75,7 +74,8 @@ def compute_travel_times_and_routes(places, ors_api_key, profile='driving-hgv'):
             route = client.directions(coords, profile=profile, format='geojson')
             duration_sec = route['features'][0]['properties']['segments'][0]['duration']
             travel_times.append(round(duration_sec / 3600, 2))
-            routes_geojson.append(route['features'][0]['geometry'])
+            route['features'][0]['properties']['custom_duration'] = round(duration_sec / 3600, 2)
+            routes_geojson.append(route['features'][0])
         except Exception as e:
             st.warning(f"Erreur ORS pour étape {i}: {e}")
             travel_times.append(0)
@@ -83,32 +83,27 @@ def compute_travel_times_and_routes(places, ors_api_key, profile='driving-hgv'):
     return travel_times, routes_geojson
 
 
+# --- STREAMLIT UI ---
 st.set_page_config(page_title="RoadMap des babylove", page_icon="🌍")
 st.title("📍 RoadMap des babylove")
 
 st.markdown(f"**KML utilisé :** {KML_URL}")
 
-if "places" not in st.session_state:
-    st.session_state.places = []
-if "travel_times" not in st.session_state:
-    st.session_state.travel_times = []
-if "routes_geojson" not in st.session_state:
-    st.session_state.routes_geojson = []
+if st.button("🔁 Mettre à jour l'itinéraire"):
 
-if st.button("Calculer planning et afficher la carte"):
-
-    with st.spinner("Chargement et parsing KML..."):
+    with st.spinner("📥 Chargement et parsing du KML..."):
         st.session_state.places = parse_kml_from_url(KML_URL)
 
     if not st.session_state.places:
         st.warning("Aucune étape trouvée dans la couche 'Etapes du voyage'. Vérifie l'URL ou la structure KML.")
     else:
-        with st.spinner("Calcul des durées de trajet..."):
+        with st.spinner("🧮 Calcul des durées de trajet..."):
             st.session_state.travel_times, st.session_state.routes_geojson = compute_travel_times_and_routes(
                 st.session_state.places, ORS_API_KEY)
 
-# Affichage du planning et carte seulement si on a les données
-if st.session_state.places:
+
+# --- AFFICHAGE ---
+if "places" in st.session_state and st.session_state.places:
     places = st.session_state.places
     travel_times = st.session_state.travel_times
     routes_geojson = st.session_state.routes_geojson
@@ -119,23 +114,21 @@ if st.session_state.places:
     st.subheader("🚍 Résumé de l'itinéraire")
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
     st.markdown(f"- 🛏️ Jours totaux sur place : **{total_days}** jours")
-    st.markdown(
-        f"- 🛣️ Temps total estimé de trajet : **{total_travel_hours:.2f} h** (~{total_travel_hours/24:.1f} jours)"
-    )
+    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{total_travel_hours:.2f} h** (~{total_travel_hours/24:.1f} jours)")
 
     st.subheader("📆 Planning du voyage")
     for i, place in enumerate(places):
         st.markdown(f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours")
         if i < len(places)-1:
-            st.markdown(f"→ 🚗 Trajet vers **{places[i+1]['city']}** : {travel_times[i+1]} heures")
+            st.markdown(f"→ 🚍 Trajet vers **{places[i+1]['city']}** : {travel_times[i+1]} heures")
 
-    # Création carte folium
+    # --- FOLIUM MAP ---
     if places[0]['lat'] and places[0]['lon']:
         m = folium.Map(location=[places[0]['lat'], places[0]['lon']], zoom_start=6)
     else:
         m = folium.Map(zoom_start=2)
 
-    # Ajouter markers
+    # Marqueurs
     for p in places:
         if p['lat'] and p['lon']:
             folium.Marker(
@@ -145,12 +138,15 @@ if st.session_state.places:
                 icon=folium.Icon(color='blue', icon='info-sign')
             ).add_to(m)
 
-    # Ajouter les trajets
-    for geojson in routes_geojson:
-        if geojson:
-            folium.GeoJson(geojson,
-                           style_function=lambda x: {
-                               'color': 'red', 'weight': 4, 'opacity': 0.7
-                            }).add_to(m)
+    # Lignes de trajet avec durée en popup
+    for i, feature in enumerate(routes_geojson):
+        if feature:
+            duration = feature['properties'].get('custom_duration', '?')
+            folium.GeoJson(
+                data=feature['geometry'],
+                style_function=lambda x: {'color': 'red', 'weight': 4, 'opacity': 0.7},
+                tooltip=f"⏱️ {duration} h de trajet"
+            ).add_to(m)
 
+    st.subheader("🗺️ Carte interactive")
     st_folium(m, width=700, height=500)
