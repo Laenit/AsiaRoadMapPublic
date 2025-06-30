@@ -108,8 +108,6 @@ if st.button("🔁 Mettre à jour l'itinéraire"):
             st.session_state.travel_times, st.session_state.routes_geojson = compute_travel_times_and_routes(
                 st.session_state.places, ORS_API_KEY)
 
-st.markdown("test")
-
 # --- AFFICHAGE ---
 if "places" in st.session_state and st.session_state.places:
     places = st.session_state.places
@@ -122,7 +120,7 @@ if "places" in st.session_state and st.session_state.places:
     st.subheader("🚍 Résumé de l'itinéraire")
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
     st.markdown(f"- 🛏️ Jours totaux sur place : **{total_days}** jours")
-    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{format_duration_hm(total_travel_hours)} h** (~{total_travel_hours/24:.1f} jours)")
+    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{format_duration_hm(total_travel_hours)} (~{total_travel_hours/24:.1f} jours)")
 
     st.subheader("📆 Planning du voyage")
     for i, place in enumerate(places):
