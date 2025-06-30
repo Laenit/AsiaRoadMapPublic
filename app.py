@@ -126,7 +126,7 @@ if "places" in st.session_state and st.session_state.places:
     for i, place in enumerate(places):
         st.markdown(f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours")
         if i < len(places)-1:
-            st.markdown(f"→ 🚍 Trajet vers **{places[i+1]['city']}** : {format_duration_hm(travel_times[i+1])} heures")
+            st.markdown(f"→ 🚍 Trajet vers **{places[i+1]['city']}** : {format_duration_hm(travel_times[i+1])}")
 
     # --- FOLIUM MAP ---
     if places[0]['lat'] and places[0]['lon']:
