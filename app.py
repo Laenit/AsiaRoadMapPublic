@@ -117,12 +117,14 @@ if "places" in st.session_state and st.session_state.places:
     total_days = sum(p['days'] for p in places)
     total_travel_hours = sum(travel_times)
 
-    st.subheader("🚍 Résumé de l'itinéraire")
+    st.subheader("🚍 Combien de temps on a prévu ?")
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
-    st.markdown(f"- 🛏️ Jours totaux sur place : **{total_days}** jours")
+    st.markdown(
+        f"- 🛏️ Durée du voyage sans les trajets : **{total_days}** jours"
+        )
     st.markdown(f"- 🛣️ Temps total estimé de trajet : **{format_duration_hm(total_travel_hours)}** (~{total_travel_hours/24:.1f} jours)")
 
-    st.subheader("📆 Planning du voyage")
+    st.subheader("📆 C'est quoi le plan ?")
     for i, place in enumerate(places):
         st.markdown(f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours")
         if i < len(places)-1:
@@ -154,5 +156,5 @@ if "places" in st.session_state and st.session_state.places:
                 tooltip=f"⏱️ {format_duration_hm(duration)} de trajet"
             ).add_to(m)
 
-    st.subheader("🗺️ Carte interactive")
+    st.subheader("🗺️ C'est où qu'elles sont les étapes ?")
     st_folium(m, width=700, height=500)
