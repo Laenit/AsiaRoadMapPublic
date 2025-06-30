@@ -116,12 +116,14 @@ if st.session_state.places:
     total_days = sum(p['days'] for p in places)
     total_travel_hours = sum(travel_times)
 
-    st.markdown(f"### Résumé de l'itinéraire")
+    st.subheader("🚍 Résumé de l'itinéraire")
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
     st.markdown(f"- 🛏️ Jours totaux sur place : **{total_days}** jours")
-    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{total_travel_hours:.2f} h** (~{total_travel_hours/24:.1f} jours)")
+    st.markdown(
+        f"- 🛣️ Temps total estimé de trajet : **{total_travel_hours:.2f} h** (~{total_travel_hours/24:.1f} jours)"
+    )
 
-    st.markdown("### 🚌 Planning détaillé :")
+    st.subheader("📆 Planning du voyage")
     for i, place in enumerate(places):
         st.markdown(f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours")
         if i < len(places)-1:
@@ -146,7 +148,9 @@ if st.session_state.places:
     # Ajouter les trajets
     for geojson in routes_geojson:
         if geojson:
-            folium.GeoJson(geojson, 
-                           style_function=lambda x: {'color': 'red', 'weight': 4, 'opacity': 0.7}).add_to(m)
+            folium.GeoJson(geojson,
+                           style_function=lambda x: {
+                               'color': 'red', 'weight': 4, 'opacity': 0.7
+                            }).add_to(m)
 
     st_folium(m, width=700, height=500)
