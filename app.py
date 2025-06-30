@@ -108,6 +108,7 @@ if st.button("🔁 Mettre à jour l'itinéraire"):
             st.session_state.travel_times, st.session_state.routes_geojson = compute_travel_times_and_routes(
                 st.session_state.places, ORS_API_KEY)
 
+st.markdown("test")
 
 # --- AFFICHAGE ---
 if "places" in st.session_state and st.session_state.places:
