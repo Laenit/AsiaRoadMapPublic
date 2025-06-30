@@ -7,8 +7,8 @@ import openrouteservice
 import folium
 from streamlit_folium import st_folium
 
-# --- CONFIG ---
-ORS_API_KEY = "5b3ce3597851110001cf624888e4767483d94848bdf5a8d12749b62c"  # <-- Mets ta clé ORS ici
+# --- CONFIG --- 
+ORS_API_KEY = st.secrets["ORS_API_KEY"]
 KML_URL = "https://www.google.com/maps/d/kml?mid=1HbOpF1GZloSX8-ayF3TH4Tg0Ixa5LZw&forcekml=1"
 
 def strip_ns(tag):
