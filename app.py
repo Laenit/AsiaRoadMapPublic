@@ -11,8 +11,10 @@ from streamlit_folium import st_folium
 ORS_API_KEY = st.secrets["ORS_API_KEY"]
 KML_URL = "https://www.google.com/maps/d/kml?mid=1HbOpF1GZloSX8-ayF3TH4Tg0Ixa5LZw&forcekml=1"
 
+
 def strip_ns(tag):
     return tag.split('}')[-1]
+
 
 def parse_kml_from_url(url, layer_name_keyword="etapes"):
     response = requests.get(url)
@@ -54,6 +56,13 @@ def parse_kml_from_url(url, layer_name_keyword="etapes"):
                     })
     return places
 
+
+def format_duration_hm(hours):
+    h = int(hours)
+    m = int(round((hours - h) * 60))
+    return f"{h}h{m:02d}"
+
+
 def compute_travel_times_and_routes(places, ors_api_key, profile='driving-hgv'):
     client = openrouteservice.Client(key=ors_api_key)
     travel_times = [0]  # 0 h pour départ
@@ -87,8 +96,6 @@ def compute_travel_times_and_routes(places, ors_api_key, profile='driving-hgv'):
 st.set_page_config(page_title="RoadMap des babylove", page_icon="🌍")
 st.title("📍 RoadMap des babylove")
 
-st.markdown(f"**KML utilisé :** {KML_URL}")
-
 if st.button("🔁 Mettre à jour l'itinéraire"):
 
     with st.spinner("📥 Chargement et parsing du KML..."):
@@ -114,13 +121,13 @@ if "places" in st.session_state and st.session_state.places:
     st.subheader("🚍 Résumé de l'itinéraire")
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
     st.markdown(f"- 🛏️ Jours totaux sur place : **{total_days}** jours")
-    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{total_travel_hours:.2f} h** (~{total_travel_hours/24:.1f} jours)")
+    st.markdown(f"- 🛣️ Temps total estimé de trajet : **{format_duration_hm(total_travel_hours)} h** (~{total_travel_hours/24:.1f} jours)")
 
     st.subheader("📆 Planning du voyage")
     for i, place in enumerate(places):
         st.markdown(f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours")
         if i < len(places)-1:
-            st.markdown(f"→ 🚍 Trajet vers **{places[i+1]['city']}** : {travel_times[i+1]} heures")
+            st.markdown(f"→ 🚍 Trajet vers **{places[i+1]['city']}** : {format_duration_hm(travel_times[i+1])} heures")
 
     # --- FOLIUM MAP ---
     if places[0]['lat'] and places[0]['lon']:
@@ -145,7 +152,7 @@ if "places" in st.session_state and st.session_state.places:
             folium.GeoJson(
                 data=feature['geometry'],
                 style_function=lambda x: {'color': 'red', 'weight': 4, 'opacity': 0.7},
-                tooltip=f"⏱️ {duration} h de trajet"
+                tooltip=f"⏱️ {format_duration_hm(duration)} h de trajet"
             ).add_to(m)
 
     st.subheader("🗺️ Carte interactive")
