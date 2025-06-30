@@ -9,7 +9,7 @@ from streamlit_folium import st_folium
 
 # --- CONFIG --- 
 ORS_API_KEY = st.secrets["ORS_API_KEY"]
-KML_URL = "https://www.google.com/maps/d/kml?mid=1HbOpF1GZloSX8-ayF3TH4Tg0Ixa5LZw&forcekml=1"
+KML_URL = st.secrets["KML_URL"]
 
 
 def strip_ns(tag):
