@@ -1,0 +1,134 @@
+{
+  "Bangkok": {
+    "Jour 1": {
+      "Activites": [
+        {
+          "Balade": 10
+        },
+        {
+          "kil": 15
+        }
+      ],
+      "Repas": [
+        {
+          "mache": 5
+        }
+      ],
+      "Transports": []
+    }
+  },
+  "Siem Reap": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 2": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 3": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 4": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 5": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Battambang": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 2": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Phnom Penh": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 2": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 3": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 4": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 5": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Kampong Cham": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Kratie": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 2": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Banlung": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 2": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 3": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    },
+    "Jour 4": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  },
+  "Stoeng Treng": {
+    "Jour 1": {
+      "Activites": [],
+      "Repas": [],
+      "Transports": []
+    }
+  }
+}

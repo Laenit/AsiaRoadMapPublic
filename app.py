@@ -3,20 +3,22 @@ import folium
 from streamlit_folium import st_folium
 from travel_times_route import compute_travel_times_and_routes
 from utils import format_duration_hm
-from get_trip import get_trip_from_place
+from data.json_utils import load_data, save_data
+from trip import Trip
 from kml_mixin import KMLMixin
+import time
 
 # --- CONFIG ---
 ORS_API_KEY = st.secrets["ORS_API_KEY"]
 KML_URL = st.secrets["KML_URL"]
-
+DATA_FILE = "trip.json"
 
 kml_mixin = KMLMixin()
 
 
 # --- STREAMLIT UI ---
 st.set_page_config(page_title="RoadMap des babylove", page_icon="🌍")
-st.title("📍 RoadMap des babylove")
+st.title("📍 RoadMap des Babylove")
 
 with st.spinner("📥 Chargement et parsing du KML..."):
     st.session_state.places = kml_mixin.get_place_from_kml_url(KML_URL)
@@ -28,6 +30,7 @@ if not st.session_state.places:
         )
 else:
     with st.spinner("🧮 Calcul des durées de trajet..."):
+        time.sleep(0.5)
         (
             st.session_state.travel_times,
             st.session_state.routes_geojson,
@@ -48,7 +51,7 @@ if "places" in st.session_state and st.session_state.places:
     st.markdown(f"- Nombre d'étapes : **{len(places)}**")
     st.markdown(
         f"- 🛏️ Durée du voyage sans les trajets : **{total_days}** jours"
-        )
+    )
     st.markdown(
         f"- 🛣️ Temps total estimé de"
         f"trajet : **{format_duration_hm(total_travel_hours)}**"
@@ -56,8 +59,11 @@ if "places" in st.session_state and st.session_state.places:
     )
 
     st.subheader("📆 C'est quoi le plan ?")
-    trip = get_trip_from_place(places)
-    for i, (place, jours) in enumerate(trip.items()):
+    data = load_data(DATA_FILE)
+    trip = Trip(places, data)
+    trip.get_trip_from_place()
+    save_data(trip.trip_data, DATA_FILE)
+    for i, (place, jours) in enumerate(trip.trip_data.items()):
         with st.expander(
             f"**Etape {i+1} - {place}** : {places[i]["days"]} jour(s)"
         ):
@@ -77,20 +83,24 @@ if "places" in st.session_state and st.session_state.places:
                                     key=f"{place}, {jour}, {activity}, cost"
                                 )
                             if st.button(
-                                "Ajouter", f"{place}, {jour}, {activity}"
-                            ):
-                                trip[f"{place}"][f"{jour}"][
+                                "Ajouter", key=f"{place}, {jour}, {activity}"
+                            ) and new_activity:
+                                trip.trip_data[f"{place}"][f"{jour}"][
                                     f"{activity}"
                                 ].append(
                                     {
                                         new_activity: int(cost)
                                     }
                                 )
+                                save_data(trip.trip_data, DATA_FILE)
                                 st.success(
                                     f"{new_activity} ajouté(e) !"
                                 )
-
-                            for item in items:
+                            data = load_data(DATA_FILE)
+                            for item in data[f"{place}"][f"{jour}"][
+                                f"{activity}"
+                            ]:
+                                time.sleep(0.5)
                                 for name, cost in item.items():
                                     st.write(f"🔹 {name},  prix = {cost} $")
 
