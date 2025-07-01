@@ -3,6 +3,7 @@ import folium
 from streamlit_folium import st_folium
 from travel_times_route import compute_travel_times_and_routes
 from utils import format_duration_hm
+from get_trip import get_trip_from_place
 from kml_mixin import KMLMixin
 
 # --- CONFIG ---
@@ -17,24 +18,22 @@ kml_mixin = KMLMixin()
 st.set_page_config(page_title="RoadMap des babylove", page_icon="🌍")
 st.title("📍 RoadMap des babylove")
 
-if st.button("🔁 Mettre à jour l'itinéraire"):
+with st.spinner("📥 Chargement et parsing du KML..."):
+    st.session_state.places = kml_mixin.get_place_from_kml_url(KML_URL)
 
-    with st.spinner("📥 Chargement et parsing du KML..."):
-        st.session_state.places = kml_mixin.get_place_from_kml_url(KML_URL)
-
-    if not st.session_state.places:
-        st.warning(
-            "Aucune étape trouvée dans la couche 'Etapes du voyage'."
-            " Vérifie l'URL ou la structure KML."
-            )
-    else:
-        with st.spinner("🧮 Calcul des durées de trajet..."):
-            (
-                st.session_state.travel_times,
-                st.session_state.routes_geojson,
-            ) = compute_travel_times_and_routes(
-                st.session_state.places, ORS_API_KEY
-            )
+if not st.session_state.places:
+    st.warning(
+        "Aucune étape trouvée dans la couche 'Etapes du voyage'."
+        " Vérifie l'URL ou la structure KML."
+        )
+else:
+    with st.spinner("🧮 Calcul des durées de trajet..."):
+        (
+            st.session_state.travel_times,
+            st.session_state.routes_geojson,
+        ) = compute_travel_times_and_routes(
+            st.session_state.places, ORS_API_KEY
+        )
 
 # --- AFFICHAGE ---
 if "places" in st.session_state and st.session_state.places:
@@ -57,10 +56,13 @@ if "places" in st.session_state and st.session_state.places:
     )
 
     st.subheader("📆 C'est quoi le plan ?")
-    for i, place in enumerate(places):
-        st.markdown(
-            f"🛏️ **Étape {i+1} : {place['city']}** - {place['days']} jours"
-        )
+    trip = get_trip_from_place(places)
+    for i, (place, jours) in enumerate(trip.items()):
+        with st.expander(place):
+            for jour, activites in jours.items():
+                with st.expander(f"📅 {jour}"):
+                    for activite in activites:
+                        st.write(f"🔹 {activite}")
         if i < len(places)-1:
             st.markdown(
                 f"→ 🚍 Trajet vers **{places[i+1]['city']}**"
