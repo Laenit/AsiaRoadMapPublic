@@ -58,11 +58,42 @@ if "places" in st.session_state and st.session_state.places:
     st.subheader("📆 C'est quoi le plan ?")
     trip = get_trip_from_place(places)
     for i, (place, jours) in enumerate(trip.items()):
-        with st.expander(place):
-            for jour, activites in jours.items():
+        with st.expander(
+            f"**Etape {i+1} - {place}** : {places[i]["days"]} jour(s)"
+        ):
+            for jour, activities in jours.items():
                 with st.expander(f"📅 {jour}"):
-                    for activite in activites:
-                        st.write(f"🔹 {activite}")
+                    for activity, items in activities.items():
+                        with st.expander(f"{activity}"):
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                new_activity = st.text_input(
+                                    "Nom",
+                                    key=f"{place}, {jour}, {activity}, txt",
+                                )
+                            with col2:
+                                cost = st.text_input(
+                                    "Prix",
+                                    key=f"{place}, {jour}, {activity}, cost"
+                                )
+                            if st.button(
+                                "Ajouter", f"{place}, {jour}, {activity}"
+                            ):
+                                trip[f"{place}"][f"{jour}"][
+                                    f"{activity}"
+                                ].append(
+                                    {
+                                        new_activity: int(cost)
+                                    }
+                                )
+                                st.success(
+                                    f"{new_activity} ajouté(e) !"
+                                )
+
+                            for item in items:
+                                for name, cost in item.items():
+                                    st.write(f"🔹 {name},  prix = {cost} $")
+
         if i < len(places)-1:
             st.markdown(
                 f"→ 🚍 Trajet vers **{places[i+1]['city']}**"
