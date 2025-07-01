@@ -1,6 +1,3 @@
-import streamlit as st
-
-
 class Trip():
     def __init__(self, places, json_data_file):
         self.places = places
@@ -10,7 +7,6 @@ class Trip():
         existing_cities = []
         for city in self.trip_data:
             existing_cities.append(city)
-            st.markdown(existing_cities)
         for place in self.places:
             if place['city'] not in existing_cities:
                 days = {}
