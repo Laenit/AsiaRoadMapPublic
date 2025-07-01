@@ -20,7 +20,7 @@ st.title("📍 RoadMap des babylove")
 if st.button("🔁 Mettre à jour l'itinéraire"):
 
     with st.spinner("📥 Chargement et parsing du KML..."):
-        st.session_state.places = kml_mixin.parse_kml_from_url(KML_URL)
+        st.session_state.places = kml_mixin.get_place_from_kml_url(KML_URL)
 
     if not st.session_state.places:
         st.warning(
