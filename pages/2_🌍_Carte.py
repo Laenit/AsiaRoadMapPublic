@@ -7,7 +7,11 @@ from Welcome_to_Asia import places, routes_geojson
 
 # --- FOLIUM MAP ---
 if places[0]['lat'] and places[0]['lon']:
-    m = folium.Map(location=[places[0]['lat'], places[0]['lon']], zoom_start=6)
+    m = folium.Map(
+        location=[places[0]['lat'], places[0]['lon']],
+        zoom_start=6,
+        tiles="CartoDB Voyager",
+    )
 else:
     m = folium.Map(zoom_start=2)
 
