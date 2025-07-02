@@ -3,3 +3,4 @@ openrouteservice
 requests
 folium
 streamlit-folium
+plotly.express
