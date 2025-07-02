@@ -88,7 +88,7 @@ if admin_costs:
     for nom, montant in admin_costs.items():
         cols = st.columns([0.1, 0.3, 0.3, 0.3])
         cols[0].checkbox(
-            "", value=False, label_visibility="collapsed", key=f"visu_check_{nom}"
+            " ", value=False, label_visibility="collapsed", key=f"visu_check_{nom}"
         )
         cols[1].write(nom)
         cols[2].write(f"{montant:.2f}")
