@@ -3,24 +3,55 @@
     "Jour 1": {
       "Activites": [],
       "Repas": [],
-      "Transports": []
+      "Transports": [
+        {
+          "tuk tuk": 1
+        }
+      ]
     }
   },
   "Siem Reap": {
     "Jour 1": {
-      "Activites": [],
-      "Repas": [],
+      "Activites": [
+        {
+          "Angkot Vat": 35
+        },
+        {
+          "Per": 10
+        }
+      ],
+      "Repas": [
+        {
+          "Pho": 2
+        }
+      ],
       "Transports": []
     },
     "Jour 2": {
-      "Activites": [],
+      "Activites": [
+        {
+          "Phare": 70
+        }
+      ],
       "Repas": [],
-      "Transports": []
+      "Transports": [
+        {
+          "Tuk tuk": 2
+        }
+      ]
     },
     "Jour 3": {
-      "Activites": [],
+      "Activites": [
+        {
+          "Oiseau": 130
+        }
+      ],
       "Repas": [],
-      "Transports": []
+      "Transports": [
+        {
+          "Bateau": 10
+        }
+      ]
     },
     "Jour 4": {
       "Activites": [],
@@ -81,7 +112,11 @@
   },
   "Kratie": {
     "Jour 1": {
-      "Activites": [],
+      "Activites": [
+        {
+          "Bateau": 90
+        }
+      ],
       "Repas": [],
       "Transports": []
     },

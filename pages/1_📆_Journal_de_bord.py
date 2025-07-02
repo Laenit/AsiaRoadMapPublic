@@ -44,25 +44,32 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                             )
                             save_data(trip.trip_data, DATA_FILE)
                             st.success(f"{new_activity} ajouté(e) !")
-                        for idx, item in enumerate(
-                            trip.trip_data[place][jour][activity]
-                        ):
-                            name, cost_val = list(item.items())[0]
-                            cols = st.columns([1, 4, 2, 1])
-                            with cols[0]:
-                                st.checkbox(
-                                    "", key=f"{place}_{jour}_{activity}_{name}_{idx}"
-                                )
-                            with cols[1]:
-                                st.markdown(f"**{name}**")
-                            with cols[2]:
-                                st.markdown(f"{cost_val} $")
-                            with cols[3]:
-                                if st.button(
-                                    "🗑️",
-                                    key=f"del_{place}_{jour}_{activity}_{name}_{idx}",
-                                ):
-                                    suppression.append((place, jour, activity, idx))
+                        if trip.trip_data[place][jour][activity]:
+                            header_col = st.columns([1, 3, 2, 2])
+                            header_col[0].markdown("**✔️**")
+                            header_col[1].markdown("**Nom**")
+                            header_col[2].markdown("**Montant (€)**")
+                            header_col[3].markdown("**Supprimer**")
+                            for idx, item in enumerate(
+                                trip.trip_data[place][jour][activity]
+                            ):
+                                name, cost_val = list(item.items())[0]
+                                cols = st.columns([1, 3, 2, 2])
+                                with cols[0]:
+                                    st.checkbox(
+                                        "",
+                                        key=f"{place}_{jour}_{activity}_{name}_{idx}",
+                                    )
+                                with cols[1]:
+                                    st.markdown(f"**{name}**")
+                                with cols[2]:
+                                    st.markdown(f"{cost_val} $")
+                                with cols[3]:
+                                    if st.button(
+                                        "🗑️",
+                                        key=f"d_{place}_{jour}_{activity}_{name}_{idx}",
+                                    ):
+                                        suppression.append((place, jour, activity, idx))
 
     if i < len(places) - 1:
         st.markdown(
