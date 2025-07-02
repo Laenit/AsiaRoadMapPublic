@@ -1,19 +1,8 @@
 {
   "Bangkok": {
     "Jour 1": {
-      "Activites": [
-        {
-          "Balade": 10
-        },
-        {
-          "kil": 15
-        }
-      ],
-      "Repas": [
-        {
-          "mache": 5
-        }
-      ],
+      "Activites": [],
+      "Repas": [],
       "Transports": []
     }
   },
