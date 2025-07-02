@@ -30,7 +30,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                                 "Nom", key=f"{place},{jour},{activity},txt"
                             )
                         with col2:
-                            cost = st.text_input(
+                            cost = st.number_input(
                                 "Prix ($)", key=f"{place},{jour},{activity},cost"
                             )
                         if st.button(
@@ -38,8 +38,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                         ) and new_activity:
                             trip.trip_data[place][jour][activity].append(
                                 {
-                                    new_activity: int(cost) if cost.isdigit()
-                                    else 0
+                                    new_activity: cost
                                 }
                             )
                             save_data(trip.trip_data, DATA_FILE)
