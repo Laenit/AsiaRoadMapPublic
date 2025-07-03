@@ -62,7 +62,7 @@ admin_costs = load_data(ADMIN_FILE)
 st.header("🗂️ Gestion des dépenses administratives")
 with st.form("admin_form"):
     nom = st.text_input("Nom de la dépense administrative")
-    montant = st.number_input("Montant (€)", min_value=0.0, format="%.2f")
+    montant = st.number_input("Montant pour deux (€)", min_value=0.0, format="%.2f")
     submitted = st.form_submit_button("Enregistrer")
     if submitted:
         if nom.strip() == "":
@@ -113,7 +113,7 @@ st.header(f"💸 Dépenses totales : {total_global:.2f} €")
 
 # --- Tableau résumé par ville + admin
 # Préparer dataframe
-depense_label = "Dépenses villes ($)"
+depense_label = "Dépenses villes (€)"
 df = pd.DataFrame.from_dict(
     depenses_villes, orient='index', columns=[depense_label]
 )

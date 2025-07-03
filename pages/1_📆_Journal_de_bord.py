@@ -41,7 +41,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                             )
                         with col2:
                             cost = st.number_input(
-                                "Prix ($)", key=f"{place},{jour},{activity},cost"
+                                "Prix pour deux (€)", key=f"{place},{jour},{activity},cost"
                             )
                         if st.button(
                             "Ajouter", key=f"{place},{jour},{activity}"
@@ -70,7 +70,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                                 with cols[1]:
                                     st.markdown(f"**{name}**")
                                 with cols[2]:
-                                    st.markdown(f"{cost_val} $")
+                                    st.markdown(f"{cost_val} €")
                                 with cols[3]:
                                     if st.button(
                                         "🗑️",
