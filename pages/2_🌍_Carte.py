@@ -2,8 +2,13 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from utils import format_duration_hm
-from Welcome_to_Asia import places, routes_geojson
+from data.json_utils import load_data
 
+ROUTE_FILE = "route.json"
+
+route_data = load_data(ROUTE_FILE)
+places = route_data["places"]
+routes_geojson = route_data["routes_geojson"]
 
 # --- FOLIUM MAP ---
 if places[0]['lat'] and places[0]['lon']:

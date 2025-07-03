@@ -2,13 +2,16 @@ import streamlit as st
 from data.json_utils import load_data, save_data
 from utils import format_duration_hm
 from trip import Trip
-from Welcome_to_Asia import places, travel_times
 
 DATA_FILE = "trip.json"
+ROUTE_FILE = "route.json"
 
 # Journal de bord
 st.subheader("📆 C'est quoi le plan ?")
 
+route_data = load_data(ROUTE_FILE)
+places = route_data["places"]
+travel_times = route_data["travel_times"]
 data = load_data(DATA_FILE)
 trip = Trip(places, data)
 trip.get_trip_from_place()
@@ -56,7 +59,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                                 cols = st.columns([1, 3, 2, 2])
                                 with cols[0]:
                                     st.checkbox(
-                                        "",
+                                        " ",
                                         key=f"{place}_{jour}_{activity}_{name}_{idx}",
                                     )
                                 with cols[1]:
