@@ -3,55 +3,24 @@
     "Jour 1": {
       "Activites": [],
       "Repas": [],
-      "Transports": [
-        {
-          "tuk tuk": 1
-        }
-      ]
+      "Transports": []
     }
   },
   "Siem Reap": {
     "Jour 1": {
-      "Activites": [
-        {
-          "Angkot Vat": 35
-        },
-        {
-          "Per": 10
-        }
-      ],
-      "Repas": [
-        {
-          "Pho": 2
-        }
-      ],
+      "Activites": [],
+      "Repas": [],
       "Transports": []
     },
     "Jour 2": {
-      "Activites": [
-        {
-          "Phare": 70
-        }
-      ],
+      "Activites": [],
       "Repas": [],
-      "Transports": [
-        {
-          "Tuk tuk": 2
-        }
-      ]
+      "Transports": []
     },
     "Jour 3": {
-      "Activites": [
-        {
-          "Oiseau": 130
-        }
-      ],
+      "Activites": [],
       "Repas": [],
-      "Transports": [
-        {
-          "Bateau": 10
-        }
-      ]
+      "Transports": []
     },
     "Jour 4": {
       "Activites": [],
@@ -59,18 +28,6 @@
       "Transports": []
     },
     "Jour 5": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
-  },
-  "Battambang": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 2": {
       "Activites": [],
       "Repas": [],
       "Transports": []
@@ -110,22 +67,6 @@
       "Transports": []
     }
   },
-  "Kratie": {
-    "Jour 1": {
-      "Activites": [
-        {
-          "Bateau": 90
-        }
-      ],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 2": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
-  },
   "Banlung": {
     "Jour 1": {
       "Activites": [],
@@ -150,23 +91,6 @@
   },
   "Stoeng Treng": {
     "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
-  },
-  "Paks\u00e9": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 2": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 3": {
       "Activites": [],
       "Repas": [],
       "Transports": []

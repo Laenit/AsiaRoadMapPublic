@@ -15,14 +15,21 @@ travel_times = route_data["travel_times"]
 data = load_data(DATA_FILE)
 trip = Trip(places, data)
 trip.get_trip_from_place()
-save_data(trip.trip_data, DATA_FILE)
+
+# Ajout : On synchronise places si nécessaire
+if len(places) != len(trip.trip_data):
+    trip.trip_data = {p["city"]: {} for p in places}
 
 suppression = []
+suppression_etape = []
 
 for i, (place, jours) in enumerate(trip.trip_data.items()):
     with st.expander(
         f"**Etape {i+1} - {place}** : {places[i]['days']} jour(s)"
     ):
+        if st.button("Supprimer l'étape", key=f"{place}, sup"):
+            suppression_etape.append(i)  # On stocke l’index et pas le nom
+
         for jour, activities in jours.items():
             with st.expander(f"📅 {jour}"):
                 for activity, items in activities.items():
@@ -40,9 +47,7 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
                             "Ajouter", key=f"{place},{jour},{activity}"
                         ) and new_activity:
                             trip.trip_data[place][jour][activity].append(
-                                {
-                                    new_activity: cost
-                                }
+                                {new_activity: cost}
                             )
                             save_data(trip.trip_data, DATA_FILE)
                             st.success(f"{new_activity} ajouté(e) !")
@@ -79,6 +84,26 @@ for i, (place, jours) in enumerate(trip.trip_data.items()):
             f" : {format_duration_hm(travel_times[i])}"
         )
 
+# Suppression des étapes entières
+if suppression_etape:
+    for index in sorted(suppression_etape, reverse=True):
+        place_name = places[index]["city"]
+        # Supprime de trip_data
+        if place_name in trip.trip_data:
+            del trip.trip_data[place_name]
+        # Supprime de places et travel_times dans route_data
+        del places[index]
+        if index > 0:
+            del travel_times[index - 1]
+        else:
+            del travel_times[0]
+    # Sauvegarde
+    save_data(trip.trip_data, DATA_FILE)
+    save_data({"places": places, "travel_times": travel_times}, ROUTE_FILE)
+    st.success("✅ Étape supprimée avec succès !")
+    st.rerun()
+
+# Suppression d’activités individuelles
 if suppression:
     for place, jour, act, index in suppression:
         try:
