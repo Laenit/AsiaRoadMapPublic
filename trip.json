@@ -2,50 +2,96 @@
   "Bangkok": {
     "Jours": {
       "Jour 1": {
-        "Activites": {},
+        "Activites": {
+          "temple ": 20.0
+        },
         "Repas": {},
-        "Transports": {},
-        "Hebergements": {}
+        "Transports": {
+          "taxi": 10.0
+        },
+        "Hebergements": {
+          "hotel": 20.0
+        }
       }
     },
-    "Activites": {},
-    "Hebergements": {}
+    "Activites": {
+      "temple ": [
+        20.0,
+        "Jour 1"
+      ]
+    },
+    "Hebergements": {
+      "hotel": [
+        20.0,
+        [
+          "Jour 1"
+        ]
+      ]
+    }
   },
   "Siem Reap": {
     "Jours": {
       "Jour 1": {
-        "Activites": {},
+        "Activites": {
+          "angkor vat": 60.0
+        },
         "Repas": {},
         "Transports": {},
-        "Hebergements": {}
+        "Hebergements": {
+          "hotel": 0.0
+        }
       },
       "Jour 2": {
         "Activites": {},
         "Repas": {},
         "Transports": {},
-        "Hebergements": {}
+        "Hebergements": {
+          "hotel": 0.0
+        }
       },
       "Jour 3": {
         "Activites": {},
         "Repas": {},
         "Transports": {},
-        "Hebergements": {}
+        "Hebergements": {
+          "hotel": 0.0
+        }
       },
       "Jour 4": {
         "Activites": {},
         "Repas": {},
         "Transports": {},
-        "Hebergements": {}
+        "Hebergements": {
+          "hotel": 0.0
+        }
       },
       "Jour 5": {
         "Activites": {},
         "Repas": {},
         "Transports": {},
-        "Hebergements": {}
+        "Hebergements": {
+          "hotel": 0.0
+        }
       }
     },
-    "Activites": {},
-    "Hebergements": {}
+    "Activites": {
+      "angkor vat": [
+        60.0,
+        "Jour 1"
+      ]
+    },
+    "Hebergements": {
+      "hotel": [
+        30.0,
+        [
+          "Jour 1",
+          "Jour 2",
+          "Jour 3",
+          "Jour 4",
+          "Jour 5"
+        ]
+      ]
+    }
   },
   "Battambang": {
     "Jours": {

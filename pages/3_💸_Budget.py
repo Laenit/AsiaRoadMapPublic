@@ -15,38 +15,38 @@ def calc_costs_per_ville(data):
         total = 0
         for cat, jours in cats.items():
             if cat == "Jours":
-                for _, details in jours.items():
-                    for cat in ["Activites", "Repas", "Transports", "Hebergement"]:
-                        for elt in details.get(cat, []):
-                            total += list(elt.values())[0]
+                for jour, details in jours.items():
+                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
+                        for name in details.get(cats, {}):
+                            total += data[ville][cat][jour][cats][name]
                 result[ville] = total
     return result
 
 
 # --- Calcul des coûts totaux par catégorie (hors admin)
 def calc_costs_villes(data):
-    total = {"Activites": 0, "Repas": 0, "Transports": 0, "Hebergement": 0}
-    for _, cats in data.items():
-        for cat, jours in cats.items():
-            if cat == "Jours":
-                for _, details in jours.items():
+    total = {"Activites": 0, "Repas": 0, "Transports": 0, "Hebergements": 0}
+    for ville, options in data.items():
+        for option, jours in options.items():
+            if option == "Jours":
+                for jour, details in jours.items():
                     for cat in total.keys():
-                        for elt in details.get(cat, []):
-                            total[cat] += list(elt.values())[0]
+                        for name in details.get(cat, {}):
+                            total[cat] += data[ville][option][jour][cat][name]
     return total
 
 
 # --- Calcul budget jour par jour (villes + admin)
 def calc_budget_jour(data, admin_costs):
     budget_jour = {}
-    for _, cats in data.items():
+    for ville, cats in data.items():
         for cat, jours in cats.items():
             if cat == "Jours":
                 for jour, details in jours.items():
                     total = 0
-                    for cat in ["Activites", "Repas", "Transports", "Hebergement"]:
-                        for elt in details.get(cat, []):
-                            total += list(elt.values())[0]
+                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
+                        for name in details.get(cats, {}):
+                            total += data[ville][cat][jour][cats][name]
                     budget_jour[jour] = budget_jour.get(jour, 0) + total
 
             # Ajouter admin à chaque jour concerné
@@ -168,14 +168,14 @@ def calc_budget_jour_sans_admin_ordered(data):
     budget_jour = []
     jour_global = 1
 
-    for _, cats in data.items():
+    for ville, cats in data.items():
         for cat, jours in cats.items():
             if cat == "Jours":
-                for _, details in jours.items():
+                for jour, details in jours.items():
                     total = 0
-                    for cat in ["Activites", "Repas", "Transports"]:
-                        for elt in details.get(cat, []):
-                            total += list(elt.values())[0]
+                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
+                        for name in details.get(cats, {}):
+                            total += data[ville][cat][jour][cats][name]
                     budget_jour.append((f"Jour {jour_global}", total))
                     jour_global += 1
 
