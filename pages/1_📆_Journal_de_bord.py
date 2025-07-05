@@ -56,26 +56,20 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                         save_data(trip.trip_data, DATA_FILE)
                                         st.success(f"{new_activity} ajouté(e) !")
                                     if trip.trip_data[place][cat][jour][activity]:
-                                        header_col = st.columns([1, 3, 2, 2])
-                                        header_col[0].markdown("**✔️**")
-                                        header_col[1].markdown("**Nom**")
-                                        header_col[2].markdown("**Montant (€)**")
-                                        header_col[3].markdown("**Supprimer**")
+                                        header_col = st.columns([3, 2, 2])
+                                        header_col[0].markdown("**Nom**")
+                                        header_col[1].markdown("**Montant (€)**")
+                                        header_col[2].markdown("**Supprimer**")
                                         for idx, item in enumerate(
                                             trip.trip_data[place][cat][jour][activity]
                                         ):
                                             name, cost_val = list(item.items())[0]
-                                            cols = st.columns([1, 3, 2, 2])
+                                            cols = st.columns([3, 2, 2])
                                             with cols[0]:
-                                                st.checkbox(
-                                                    " ",
-                                                    key=f"{place}_{jour}_{activity}_{name}_{idx}",
-                                                )
-                                            with cols[1]:
                                                 st.markdown(f"**{name}**")
-                                            with cols[2]:
+                                            with cols[1]:
                                                 st.markdown(f"{cost_val} €")
-                                            with cols[3]:
+                                            with cols[2]:
                                                 if st.button(
                                                     "🗑️",
                                                     key=f"d_{place}_{jour}_{activity}_{name}_{idx}",
@@ -83,23 +77,17 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                                     suppression.append((place, jour, activity, idx))
                                 else:
                                     if trip.trip_data[place][cat][jour][activity]:
-                                        header_col = st.columns([1, 3, 2])
-                                        header_col[0].markdown("**✔️**")
-                                        header_col[1].markdown("**Nom**")
-                                        header_col[2].markdown("**Montant (€)**")
+                                        header_col = st.columns([3, 2])
+                                        header_col[0].markdown("**Nom**")
+                                        header_col[1].markdown("**Montant (€)**")
                                         for idx, item in enumerate(
                                             trip.trip_data[place][cat][jour][activity]
                                         ):
                                             name, cost_val = list(item.items())[0]
-                                            cols = st.columns([1, 3, 2])
+                                            cols = st.columns([3, 2])
                                             with cols[0]:
-                                                st.checkbox(
-                                                    " ",
-                                                    key=f"{place}_{jour}_{activity}_{name}_{idx}",
-                                                )
-                                            with cols[1]:
                                                 st.markdown(f"**{name}**")
-                                            with cols[2]:
+                                            with cols[1]:
                                                 st.markdown(f"{cost_val} €")
 
             else:
