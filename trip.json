@@ -2,14 +2,26 @@
   "Bangkok": {
     "Jours": {
       "Jour 1": {
-        "Activites": [],
+        "Activites": [
+          {
+            "balade": 0.0
+          }
+        ],
         "Repas": [],
         "Transports": [],
         "Hebergements": []
       }
     },
-    "Activites": [],
-    "Hebergements": []
+    "Activites": [
+      {
+        "balade": 0.0
+      }
+    ],
+    "Hebergements": [
+      {
+        "hotel": 0.0
+      }
+    ]
   },
   "Siem Reap": {
     "Jours": {
