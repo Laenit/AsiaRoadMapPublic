@@ -1,99 +1,176 @@
 {
   "Bangkok": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
+    },
+    "Activites": [],
+    "Hebergements": []
   },
   "Siem Reap": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 2": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 3": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 4": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 5": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
     },
-    "Jour 2": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
+    "Activites": [],
+    "Hebergements": []
+  },
+  "Battambang": {
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 2": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
     },
-    "Jour 3": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 4": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 5": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Activites": [],
+    "Hebergements": []
   },
   "Phnom Penh": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 2": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 3": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 4": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 5": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
     },
-    "Jour 2": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 3": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 4": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 5": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Activites": [],
+    "Hebergements": []
   },
   "Kampong Cham": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
+    },
+    "Activites": [],
+    "Hebergements": []
+  },
+  "Kratie": {
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 2": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
+    },
+    "Activites": [],
+    "Hebergements": []
   },
   "Banlung": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 2": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 3": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      },
+      "Jour 4": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
     },
-    "Jour 2": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 3": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    },
-    "Jour 4": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Activites": [],
+    "Hebergements": []
   },
   "Stoeng Treng": {
-    "Jour 1": {
-      "Activites": [],
-      "Repas": [],
-      "Transports": []
-    }
+    "Jours": {
+      "Jour 1": {
+        "Activites": [],
+        "Repas": [],
+        "Transports": [],
+        "Hebergements": []
+      }
+    },
+    "Activites": [],
+    "Hebergements": []
   }
 }
