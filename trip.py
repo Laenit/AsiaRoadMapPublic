@@ -11,15 +11,15 @@ class Trip():
             if place['city'] not in existing_cities:
                 days = {
                     "Jours": {},
-                    "Activites": [],
-                    "Hebergements": [],
+                    "Activites": {},
+                    "Hebergements": {},
                 }
                 for i in range(place["days"]):
                     days["Jours"][f"Jour {i+1}"] = {
-                        "Activites": [],
-                        "Repas": [],
-                        "Transports": [],
-                        "Hebergements": [],
+                        "Activites": {},
+                        "Repas": {},
+                        "Transports": {},
+                        "Hebergements": {},
                     }
                 self.trip_data[
                     f"{place['city']}"

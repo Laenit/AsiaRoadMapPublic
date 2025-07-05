@@ -45,25 +45,29 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                         )
                                     with col2:
                                         cost = st.number_input(
-                                            "Prix pour deux (€)", key=f"{place},{jour},{activity},cost"
+                                            "Prix pour deux (€)",
+                                            key=f"{place},{jour},{activity},cost"
                                         )
                                     if st.button(
                                         "Ajouter", key=f"{place},{jour},{activity}"
                                     ) and new_activity:
-                                        trip.trip_data[place][cat][jour][activity].append(
-                                            {new_activity: cost}
+                                        trip.trip_data[place][cat][jour][activity][new_activity] = (
+                                            cost
                                         )
                                         save_data(trip.trip_data, DATA_FILE)
+                                        st.rerun()
                                         st.success(f"{new_activity} ajouté(e) !")
                                     if trip.trip_data[place][cat][jour][activity]:
                                         header_col = st.columns([3, 2, 2])
                                         header_col[0].markdown("**Nom**")
                                         header_col[1].markdown("**Montant (€)**")
                                         header_col[2].markdown("**Supprimer**")
-                                        for idx, item in enumerate(
+                                        for name in (
                                             trip.trip_data[place][cat][jour][activity]
                                         ):
-                                            name, cost_val = list(item.items())[0]
+                                            cost_val = (
+                                                trip.trip_data[place][cat][jour][activity][name]
+                                            )
                                             cols = st.columns([3, 2, 2])
                                             with cols[0]:
                                                 st.markdown(f"**{name}**")
@@ -72,18 +76,19 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                             with cols[2]:
                                                 if st.button(
                                                     "🗑️",
-                                                    key=f"d_{place}_{jour}_{activity}_{name}_{idx}",
+                                                    key=f"d_{place}_{jour}_{activity}_{name}",
                                                 ):
-                                                    suppression.append((place, jour, activity, idx))
+                                                    suppression.append(
+                                                        (place, jour, activity, name)
+                                                    )
                                 else:
                                     if trip.trip_data[place][cat][jour][activity]:
                                         header_col = st.columns([3, 2])
                                         header_col[0].markdown("**Nom**")
                                         header_col[1].markdown("**Montant (€)**")
-                                        for idx, item in enumerate(
-                                            trip.trip_data[place][cat][jour][activity]
+                                        for name, cost_val in (
+                                            trip.trip_data[place][cat][jour][activity].items()
                                         ):
-                                            name, cost_val = list(item.items())[0]
                                             cols = st.columns([3, 2])
                                             with cols[0]:
                                                 st.markdown(f"**{name}**")
@@ -104,32 +109,30 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                     if st.button(
                         "Ajouter", key=f"{place},{cat}"
                     ) and new_activity:
-                        trip.trip_data[place][cat].append(
-                            {new_activity: cost}
-                        )
+                        if cat == "Activites":
+                            trip.trip_data[place][cat][new_activity] = [cost, "0"]
+                        if cat == "Hebergements":
+                            trip.trip_data[place][cat][new_activity] = [cost, []]
                         save_data(trip.trip_data, DATA_FILE)
                         st.success(f"{new_activity} ajouté(e) !")
                     if trip.trip_data[place][cat]:
-                        header_col = st.columns([1, 3, 2, 2, 2])
+                        header_col = st.columns([1, 3, 2, 3, 2])
                         header_col[0].markdown("**✔️**")
                         header_col[1].markdown("**Nom**")
                         header_col[2].markdown("**Montant (€)**")
                         header_col[3].markdown("**Jour(s)**")
                         header_col[4].markdown("**Supprimer**")
-                        for idx, item in enumerate(
-                            trip.trip_data[place][cat]
-                        ):
-                            name, cost_val = list(item.items())[0]
-                            cols = st.columns([1, 3, 2, 2, 2])
+                        for name, cost_jour in trip.trip_data[place][cat].items():
+                            cols = st.columns([1, 3, 2, 3, 2])
                             with cols[0]:
                                 st.checkbox(
                                     " ",
-                                    key=f"{place}_{cat}_{name}_{idx}",
+                                    key=f"{place}_{cat}_{name}",
                                 )
                             with cols[1]:
                                 st.markdown(f"**{name}**")
                             with cols[2]:
-                                st.markdown(f"{cost_val} €")
+                                st.markdown(f"{cost_jour[0]} €")
                             with cols[3]:
                                 jours_possibles = [
                                     j for j in trip.trip_data[place]["Jours"].keys()
@@ -138,24 +141,84 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                 if cat == "Activites":
                                     jour_select = st.selectbox(
                                         "Jour",
-                                        ["---"] + jours_possibles,
-                                        key=f"{place}_{cat}_{idx}_select"
+                                        ["0"] + jours_possibles,
+                                        key=f"{place}_{cat}_select",
+                                        index=int(trip.trip_data[place][cat][name][1][-1]),
+                                        label_visibility="collapsed"
                                     )
+                                    previous_day = trip.trip_data[place][cat][name][1]
                                     if (
-                                        jour_select != "---" and {new_activity: cost}
-                                        not in trip.trip_data[place]["Jours"][jour_select][cat]
-                                    ):
-                                        trip.trip_data[place]["Jours"][jour_select][cat].append(
-                                            {new_activity: cost}
+                                        jour_select != "0" and
+                                        name not in (
+                                            list(
+                                                trip.trip_data[place]["Jours"][jour_select][
+                                                    cat
+                                                ].keys()
+                                            )
                                         )
+                                    ):
+                                        trip.trip_data[place]["Jours"][jour_select][cat][name] = (
+                                            cost
+                                        )
+                                        trip.trip_data[place][cat][name] = [
+                                            cost,
+                                            jour_select,
+                                        ]
                                         save_data(trip.trip_data, DATA_FILE)
                                         st.rerun()
+                                    if previous_day != "0" and previous_day != jour_select:
+                                        del (
+                                            trip.trip_data[place]["Jours"][previous_day][cat][
+                                                name
+                                            ]
+                                        )
+                                        trip.trip_data[place][cat][name] = [
+                                            cost,
+                                            jour_select,
+                                        ]
+                                        save_data(trip.trip_data, DATA_FILE)
+                                        st.rerun()
+                                if cat == "Hebergements":
+                                    jours_select = st.multiselect(
+                                        "Jours",
+                                        jours_possibles,
+                                        key=f"{place}_{cat}_select",
+                                        default=trip.trip_data[place][cat][name][1],
+                                        label_visibility="collapsed",
+                                    )
+                                    previous_days = trip.trip_data[place][cat][name][1]
+                                    for jour_select in jours_select:
+                                        if (
+                                            name not in (
+                                                list(
+                                                    trip.trip_data[place]["Jours"][jour_select][
+                                                        cat
+                                                    ].keys()
+                                                )
+                                            )
+                                        ):
+                                            trip.trip_data[place]["Jours"][jour_select][cat][
+                                                name
+                                            ] = (
+                                                cost
+                                            )
+                                            trip.trip_data[place][cat][name][1].append(jour_select)
+                                            save_data(trip.trip_data, DATA_FILE)
+                                            st.rerun()
+                                    for previous_day in previous_days:
+                                        if previous_day not in jours_select:
+                                            del trip.trip_data[place]["Jours"][previous_day][cat][
+                                                name
+                                            ]
+                                            trip.trip_data[place][cat][name][1].remove(previous_day)
+                                            save_data(trip.trip_data, DATA_FILE)
+                                            st.rerun()
                             with cols[4]:
                                 if st.button(
                                     "🗑️",
-                                    key=f"d_{place}_{cat}_{name}_{idx}",
+                                    key=f"d_{place}_{cat}_{name}",
                                 ):
-                                    suppression_cat.append((place, cat, idx))
+                                    suppression_cat.append((place, cat, name))
 
     if i < len(places) - 1:
         st.markdown(
@@ -184,20 +247,32 @@ if suppression_etape:
 
 # Suppression des grandes acits
 if suppression_cat:
-    for place, cat, index in suppression_cat:
-        try:
-            del trip.trip_data[place][cat][index]
-        except IndexError:
-            pass
+    for place, cat, name in suppression_cat:
+        if cat == "Activite":
+            try:
+                jour_select = trip.trip_data[place][cat][name][1]
+                del trip.trip_data[place][cat][name]
+                if jour_select != "Jour 0":
+                    del trip.trip_data[place]["Jours"][jour_select][cat][name]
+            except IndexError:
+                pass
+        if cat == "Hebergements":
+            try:
+                jours_select = trip.trip_data[place][cat][name][1]
+                del trip.trip_data[place][cat][name]
+                for jour_select in jours_select:
+                    del trip.trip_data[place]["Jours"][jour_select][cat][name]
+            except IndexError:
+                pass
     save_data(trip.trip_data, DATA_FILE)
     st.success("✅ Élément(s) supprimé(s) avec succès !")
     st.rerun()
 
 # Suppression d’activités individuelles
 if suppression:
-    for place, jour, act, index in suppression:
+    for place, jour, act, name in suppression:
         try:
-            del trip.trip_data[place][jour][act][index]
+            del trip.trip_data[place][jour][act][name]
         except IndexError:
             pass
     save_data(trip.trip_data, DATA_FILE)
