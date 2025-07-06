@@ -60,29 +60,31 @@ for i in range(len(places) - 1):
         and cached_travel_times[i] > 0
         and cached_routes_geojson[i] is not None
     ):
-        st.info(f"✅ Étape {i+1} déjà en cache : {from_place['city']} ➡️ {to_place['city']}")
+        st.spinner(f"✅ Étape {i+1} déjà en cache : {from_place['city']} ➡️ {to_place['city']}")
         continue  # sauter cette étape
 
     # Calculer la route avec ORS
-    st.warning(f"📡 Calcul du trajet pour l'étape {i+1}: {from_place['city']} ➡️ {to_place['city']}")
-    try:
-        travel_time, route_geojson = compute_travel_time_and_route(
-            from_place, to_place, ORS_API_KEY
-        )
-        cached_travel_times[i] = travel_time
-        cached_routes_geojson[i] = route_geojson
+    with st.spinner(
+        f"📡 Calcul du trajet pour l'étape {i+1}: {from_place['city']} ➡️ {to_place['city']}"
+    ):
+        try:
+            travel_time, route_geojson = compute_travel_time_and_route(
+                from_place, to_place, ORS_API_KEY
+            )
+            cached_travel_times[i] = travel_time
+            cached_routes_geojson[i] = route_geojson
 
-        # Sauvegarder après chaque étape pour ne rien perdre
-        save_data({
-            "places": places,
-            "travel_times": cached_travel_times,
-            "routes_geojson": cached_routes_geojson
-        }, ROUTE_FILE)
+            # Sauvegarder après chaque étape pour ne rien perdre
+            save_data({
+                "places": places,
+                "travel_times": cached_travel_times,
+                "routes_geojson": cached_routes_geojson
+            }, ROUTE_FILE)
 
-        time.sleep(1)  # petite pause pour éviter de saturer l'API
-    except Exception as e:
-        st.error(f"❌ Erreur lors du calcul de l'étape {i+1}: {e}")
-        cached_travel_times[i] = 0  # marquer comme échec pour tenter plus tard
+            time.sleep(1)  # petite pause pour éviter de saturer l'API
+        except Exception as e:
+            st.error(f"❌ Erreur lors du calcul de l'étape {i+1}: {e}")
+            cached_travel_times[i] = 0  # marquer comme échec pour tenter plus tard
 
 # --- Stocker dans session_state ---
 st.session_state.travel_times = cached_travel_times

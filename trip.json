@@ -46,9 +46,7 @@
         "Activites": {},
         "Repas": {},
         "Transports": {},
-        "Hebergements": {
-          "hotel": 30.0
-        }
+        "Hebergements": {}
       },
       "Jour 4": {
         "Activites": {},
@@ -79,7 +77,6 @@
         [
           "Jour 1",
           "Jour 2",
-          "Jour 3",
           "Jour 4",
           "Jour 5"
         ]
