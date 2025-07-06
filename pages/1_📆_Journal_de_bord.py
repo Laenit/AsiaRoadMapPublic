@@ -158,10 +158,10 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                         )
                                     ):
                                         trip.trip_data[place]["Jours"][jour_select][cat][name] = (
-                                            cost
+                                            cost_jour[0]
                                         )
                                         trip.trip_data[place][cat][name] = [
-                                            cost,
+                                            cost_jour[0],
                                             jour_select,
                                         ]
                                         save_data(trip.trip_data, DATA_FILE)
@@ -173,7 +173,7 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                             ]
                                         )
                                         trip.trip_data[place][cat][name] = [
-                                            cost,
+                                            cost_jour[0],
                                             jour_select,
                                         ]
                                         save_data(trip.trip_data, DATA_FILE)
@@ -200,7 +200,7 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                             trip.trip_data[place]["Jours"][jour_select][cat][
                                                 name
                                             ] = (
-                                                cost
+                                                cost_jour[0]
                                             )
                                             trip.trip_data[place][cat][name][1].append(jour_select)
                                             save_data(trip.trip_data, DATA_FILE)
@@ -245,14 +245,14 @@ if suppression_etape:
     st.success("✅ Étape supprimée avec succès !")
     st.rerun()
 
-# Suppression des grandes acits
+# Suppression des grandes actis
 if suppression_cat:
     for place, cat, name in suppression_cat:
-        if cat == "Activite":
+        if cat == "Activites":
             try:
                 jour_select = trip.trip_data[place][cat][name][1]
                 del trip.trip_data[place][cat][name]
-                if jour_select != "Jour 0":
+                if jour_select != "0":
                     del trip.trip_data[place]["Jours"][jour_select][cat][name]
             except IndexError:
                 pass

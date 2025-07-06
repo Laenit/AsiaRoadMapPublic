@@ -2,9 +2,7 @@
   "Bangkok": {
     "Jours": {
       "Jour 1": {
-        "Activites": {
-          "temple ": 20.0
-        },
+        "Activites": {},
         "Repas": {},
         "Transports": {
           "taxi": 10.0
@@ -14,12 +12,7 @@
         }
       }
     },
-    "Activites": {
-      "temple ": [
-        20.0,
-        "Jour 1"
-      ]
-    },
+    "Activites": {},
     "Hebergements": {
       "hotel": [
         20.0,
@@ -38,7 +31,7 @@
         "Repas": {},
         "Transports": {},
         "Hebergements": {
-          "hotel": 0.0
+          "hotel": 30.0
         }
       },
       "Jour 2": {
@@ -46,7 +39,7 @@
         "Repas": {},
         "Transports": {},
         "Hebergements": {
-          "hotel": 0.0
+          "hotel": 30.0
         }
       },
       "Jour 3": {
@@ -54,7 +47,7 @@
         "Repas": {},
         "Transports": {},
         "Hebergements": {
-          "hotel": 0.0
+          "hotel": 30.0
         }
       },
       "Jour 4": {
@@ -62,7 +55,7 @@
         "Repas": {},
         "Transports": {},
         "Hebergements": {
-          "hotel": 0.0
+          "hotel": 30.0
         }
       },
       "Jour 5": {
@@ -70,7 +63,7 @@
         "Repas": {},
         "Transports": {},
         "Hebergements": {
-          "hotel": 0.0
+          "hotel": 30.0
         }
       }
     },
