@@ -221,10 +221,40 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                     suppression_cat.append((place, cat, name))
 
     if i < len(places) - 1:
-        st.markdown(
-            f"→ 🚍 Trajet vers **{places[i+1]['city']}**"
-            f" : {format_duration_hm(travel_times[i])}"
-        )
+        if (
+            f"Trajet vers {places[i+1]['city']}"
+            not in trip.trip_data[places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"].keys()
+        ):
+            trip.trip_data[places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
+                            f"Trajet vers {places[i+1]['city']}"
+                        ] = 0
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(
+                f"→ 🚍 Trajet vers **{places[i+1]['city']}**"
+                f" : {format_duration_hm(travel_times[i])}"
+            )
+        with col2:
+            new_price = st.number_input(
+                label="Prix pour deux (€)",
+                min_value=0,
+                value=(
+                    trip.trip_data[places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
+                        f"Trajet vers {places[i+1]['city']}"
+                    ]
+                ),
+                key=f"{places[i+1]['city']}_transports"
+            )
+            if (
+                new_price != trip.trip_data[places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
+                        f"Trajet vers {places[i+1]['city']}"
+                    ]
+            ):
+                trip.trip_data[places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
+                        f"Trajet vers {places[i+1]['city']}"
+                    ] = new_price
+                save_data(trip.trip_data, DATA_FILE)
+                st.rerun()
 
 # Suppression des étapes entières
 if suppression_etape:

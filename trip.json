@@ -29,7 +29,9 @@
           "angkor vat": 60.0
         },
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Siem Reap": 20
+        },
         "Hebergements": {
           "hotel": 30.0
         }
@@ -88,7 +90,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Battambang": 20
+        },
         "Hebergements": {}
       },
       "Jour 2": {
@@ -106,7 +110,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Phnom Penh": 20
+        },
         "Hebergements": {}
       },
       "Jour 2": {
@@ -142,7 +148,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Kampong Cham": 20
+        },
         "Hebergements": {}
       }
     },
@@ -154,7 +162,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Kratie": 20
+        },
         "Hebergements": {}
       },
       "Jour 2": {
@@ -172,7 +182,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Banlung": 20
+        },
         "Hebergements": {}
       },
       "Jour 2": {
@@ -202,7 +214,9 @@
       "Jour 1": {
         "Activites": {},
         "Repas": {},
-        "Transports": {},
+        "Transports": {
+          "Trajet vers Stoeng Treng": 20
+        },
         "Hebergements": {}
       }
     },
