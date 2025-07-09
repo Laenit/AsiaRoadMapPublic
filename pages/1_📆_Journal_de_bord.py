@@ -173,9 +173,59 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                     key=f"{place}_{cat}_{name}",
                                 )
                             with cols[1]:
-                                st.markdown(f"**{name}**")
+                                col_name = st.columns([1, 1.5])
+                                with col_name[1]:
+                                    is_on = st.toggle(
+                                        label="Editer",
+                                        key=f"{place}_{cat}_toggle",
+                                        value=False,
+                                    )
+                                with col_name[0]:
+                                    if is_on:
+                                        new_name = st.text_input(
+                                            label=" ",
+                                            value=name,
+                                            label_visibility="collapsed"
+                                        )
+                                        if new_name != name:
+                                            del trip.trip_data[place][cat][name]
+                                            trip.trip_data[place][cat][new_name] = cost_jour
+                                            if cat == "Activites":
+                                                del trip.trip_data[place][
+                                                    "Jours"
+                                                ][cost_jour[1]][name]
+                                                trip.trip_data[place][
+                                                    "Jours"
+                                                ][cost_jour[1]][cat][new_name] = cost_jour[0]
+                                            else:
+                                                for jour in cost_jour[1]:
+                                                    del trip.trip_data[place][
+                                                        "Jours"
+                                                    ][jour][cat][name]
+                                                    trip.trip_data[place][
+                                                        "Jours"
+                                                    ][jour][cat][new_name] = cost_jour[0]
+                                            save_data(trip.trip_data, DATA_FILE)
+                                            st.rerun()
+                                    else:
+                                        st.markdown(f"**{name}**")
                             with cols[2]:
-                                st.markdown(f"{cost_jour[0]} €")
+                                new_price = st.number_input(
+                                    label=" ",
+                                    value=cost_jour[0],
+                                    label_visibility="collapsed",
+                                    key=f"{place}_{cat}_price"
+                                )
+                                if (
+                                    new_price != (
+                                        trip.trip_data[place][cat][name][0]
+                                    )
+                                ):
+                                    trip.trip_data[place][cat][name] = [
+                                        new_price, cost_jour[1]
+                                    ]
+                                    save_data(trip.trip_data, DATA_FILE)
+                                    st.rerun()
                             with cols[3]:
                                 jours_possibles = [
                                     j for j in trip.trip_data[place]["Jours"].keys()
