@@ -9,8 +9,8 @@ import time
 # --- CONFIG ---
 ORS_API_KEY = st.secrets["ORS_API_KEY"]
 KML_URL = st.secrets["KML_URL"]
-DATA_FILE = "trip.json"
-ROUTE_FILE = "route.json"
+DATA_FILE = os.path.join("data", "trip.json")
+ROUTE_FILE = os.path.join("data", "route.json")
 
 kml_mixin = KMLMixin()
 

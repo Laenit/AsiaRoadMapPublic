@@ -37,6 +37,7 @@ ehthumbs.db
 Thumbs.db
 
 
-# streamlit secrets
+#
 .streamlit
 __pycache__
+.pytest_cache
