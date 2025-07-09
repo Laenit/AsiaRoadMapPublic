@@ -70,9 +70,52 @@ for i, (place, cats) in enumerate(trip.trip_data.items()):
                                             )
                                             cols = st.columns([3, 2, 2])
                                             with cols[0]:
-                                                st.markdown(f"**{name}**")
+                                                col_name = st.columns([1.5, 1])
+                                                with col_name[1]:
+                                                    is_on = st.toggle(
+                                                        label="Editer",
+                                                        key=f"{place}_{jour}_{activity}_toggle",
+                                                        value=False,
+                                                    )
+                                                with col_name[0]:
+                                                    if is_on:
+                                                        new_name = st.text_input(
+                                                            label=" ",
+                                                            value=name,
+                                                            label_visibility="collapsed"
+                                                        )
+                                                        if new_name != name:
+                                                            del trip.trip_data[place][cat][jour][
+                                                                    activity
+                                                                ][name]
+                                                            trip.trip_data[place][cat][jour][
+                                                                    activity
+                                                                ][new_name] = cost_val
+                                                            save_data(trip.trip_data, DATA_FILE)
+                                                            st.rerun()
+                                                    else:
+                                                        st.markdown(f"**{name}**")
                                             with cols[1]:
-                                                st.markdown(f"{cost_val} €")
+                                                new_price = st.number_input(
+                                                    label=" ",
+                                                    value=cost_val,
+                                                    label_visibility="collapsed",
+                                                    key=f"{place}_{jour}_{activity}_price"
+                                                )
+                                                if (
+                                                    new_price != (
+                                                        trip.trip_data[place][cat][jour][
+                                                            activity
+                                                        ][name]
+                                                    )
+                                                ):
+                                                    trip.trip_data[place][cat][jour][
+                                                        activity
+                                                    ][name] = (
+                                                        new_price
+                                                    )
+                                                    save_data(trip.trip_data, DATA_FILE)
+                                                    st.rerun()
                                             with cols[2]:
                                                 if st.button(
                                                     "🗑️",
@@ -302,7 +345,7 @@ if suppression_cat:
 if suppression:
     for place, jour, act, name in suppression:
         try:
-            del trip.trip_data[place][jour][act][name]
+            del trip.trip_data[place]["Jours"][jour][act][name]
         except IndexError:
             pass
     save_data(trip.trip_data, DATA_FILE)

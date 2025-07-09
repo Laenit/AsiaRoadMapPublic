@@ -3,24 +3,15 @@
     "Jours": {
       "Jour 1": {
         "Activites": {},
-        "Repas": {},
-        "Transports": {
-          "taxi": 10.0
+        "Repas": {
+          "[BA](google.com)": 6.0
         },
-        "Hebergements": {
-          "hotel": 20.0
-        }
+        "Transports": {},
+        "Hebergements": {}
       }
     },
     "Activites": {},
-    "Hebergements": {
-      "hotel": [
-        20.0,
-        [
-          "Jour 1"
-        ]
-      ]
-    }
+    "Hebergements": {}
   },
   "Siem Reap": {
     "Jours": {
@@ -37,7 +28,9 @@
         }
       },
       "Jour 2": {
-        "Activites": {},
+        "Activites": {
+          "angkor vat": 60.0
+        },
         "Repas": {},
         "Transports": {},
         "Hebergements": {
@@ -70,7 +63,7 @@
     "Activites": {
       "angkor vat": [
         60.0,
-        "Jour 1"
+        "Jour 2"
       ]
     },
     "Hebergements": {
