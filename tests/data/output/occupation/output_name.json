@@ -15,7 +15,7 @@
         }
       },
       "Hebergements": {
-        "hotel": {
+        "gaga": {
           "cost": 20.0,
           "payement_status": false
         }
@@ -45,7 +45,13 @@
       "Transports": {},
       "Hebergements": {}
     },
-    "Activites": {},
+    "Activites": {
+      "Temple": {
+        "cost": 60,
+        "payement_status": false,
+        "day": null
+      }
+    },
     "Hebergements": {}
   }
 }

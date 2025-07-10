@@ -1,5 +1,5 @@
 import os
-from generic_object import GenericObejct
+from objects.generic_object import GenericObejct
 
 REPO_PATH = os.getcwd()
 DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
@@ -24,14 +24,12 @@ class GenericOccupation(GenericObejct):
         self.place = place
         self.day = day
 
-        self.path = [place, type, name]
-        if self.day is not None:
-            self.path = self.path[:-2] + day + self.path[-2:]
+        self.path = [place, day, type, name]
 
     def create_occupation(self):
         self.change_value(
-            self.path,
             {"cost": self.cost, "payement_status": self.is_paid, "day": self.day},
+            self.path,
         )
 
     def change_cost(self, new_cost):
