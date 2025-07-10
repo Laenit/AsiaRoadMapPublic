@@ -1,0 +1,22 @@
+{
+  "Siem Reap": {
+    "Jour 1": {
+      "Activites": {
+        "Angkor Vat": {
+          "cost": 60,
+          "payement_status": true
+        }
+      },
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Siem Reap": {
+          "cost": 20,
+          "payement_status": false
+        }
+      },
+      "Hebergements": {
+        "gaga": 30
+      }
+    }
+  }
+}

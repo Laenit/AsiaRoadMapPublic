@@ -1,7 +1,7 @@
 import streamlit as st
 from data.json_utils import load_data, save_data
-from utils import format_duration_hm
-from trip import Trip
+from utils.utils import format_duration_hm
+from utils.trip import Trip
 
 DATA_FILE = "trip.json"
 ROUTE_FILE = "route.json"

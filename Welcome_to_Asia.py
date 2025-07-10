@@ -1,9 +1,9 @@
 import streamlit as st
-from travel_times_route import compute_travel_time_and_route
-from utils import format_duration_hm
+from utils.travel_times_route import compute_travel_time_and_route
+from utils.utils import format_duration_hm
 from data.json_utils import load_data, save_data
 import os
-from kml_mixin import KMLMixin
+from utils.kml_mixin import KMLMixin
 import time
 
 # --- CONFIG ---
