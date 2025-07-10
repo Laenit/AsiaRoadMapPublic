@@ -14,13 +14,25 @@ class Day(GenericObejct):
                  input_data_path=DATA_PATH,
                  output_data_path=DATA_PATH):
         super().__init__(input_data_path, output_data_path)
+
         self.place = place
         self.number_place = number_place
         self.number_trip = number_trip
 
         self.cost = None
 
-        self.path = [place, "Jour" + f" {number_place}"]
+        self.path = [place, f"Jour {number_place}"]
+
+    def create_day(self):
+        self.change_value(
+            {
+                "Activites": {},
+                "Repas": {},
+                "Transports": {},
+                "Hebergements": {}
+            },
+            self.path
+        )
 
     def get_type_dataframe(self, type):
         type_path = self.path + [type]
@@ -45,4 +57,5 @@ class Day(GenericObejct):
         total = 0
         for type in types:
             total += self.get_type_cost(type)
+        self.cost = total
         return total

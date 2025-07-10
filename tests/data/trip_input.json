@@ -25,7 +25,12 @@
       "Activites": {},
       "Repas": {},
       "Transports": {},
-      "Hebergements": {}
+      "Hebergements": {
+        "oui": {
+          "cost": 30,
+          "payement_status": true
+        }
+      }
     },
     "Jour 3": {
       "Activites": {},
@@ -45,7 +50,22 @@
       "Transports": {},
       "Hebergements": {}
     },
-    "Activites": {},
-    "Hebergements": {}
+    "Activites": {
+      "Bateau": {
+        "cost": 30,
+        "payement_status": false,
+        "day": "Jour 2"
+      }
+    },
+    "Hebergements": {
+      "gaga": {
+        "cost": 20,
+        "payement_status": false,
+        "day": [
+          "Jour 2",
+          "Jour 3"
+        ]
+      }
+    }
   }
 }
