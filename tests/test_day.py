@@ -13,21 +13,21 @@ OUTPUT_COST_DATA_PATH = os.path.join(
 
 def test_it_returns_dataframe():
     day = Day("Siem Reap", 1, 10, INPUT_DATA_PATH, OUTPUT_DF_DATA_PATH)
-    df = day.get_type_dataframe("Hebergements")
+    df = day.get_day_type_dataframe("Hebergements")
 
     assert (df["name"] == "gaga").any()
 
 
 def test_it_returns_type_cost():
     day = Day("Siem Reap", 1, 10, INPUT_DATA_PATH, OUTPUT_DF_DATA_PATH)
-    activity_cost = day.get_type_cost(type="Activites")
-    housing_cost = day.get_type_cost(type="Hebergements")
+    activity_cost = day.get_day_type_cost(type="Activites")
+    housing_cost = day.get_day_type_cost(type="Hebergements")
 
     assert activity_cost == 60 and housing_cost == 20
 
 
 def test_it_returns_total_cost():
     day = Day("Siem Reap", 1, 10, INPUT_DATA_PATH, OUTPUT_DF_DATA_PATH)
-    total_cost = day.get_total_cost()
+    total_cost = day.get_day_total_cost()
 
     assert total_cost == 100

@@ -15,7 +15,7 @@ def test_it_returns_total_cost():
         INPUT_DATA_PATH,
         OUTPUT_DATA_PATH
     )
-    place_cost = place.get_place_cost()
+    place_cost = place.get_cost()
 
     assert (
         place_cost == 130
@@ -30,7 +30,7 @@ def test_it_returns_days_dataframe():
         OUTPUT_DATA_PATH
     )
 
-    df = place.get_days_dataframe()
+    df = place.get_days_dataframe(place.days_number, place.name)
 
     assert (
         df["cost"].sum() == 130

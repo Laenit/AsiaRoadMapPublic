@@ -1,7 +1,6 @@
 import os
-from objects.day import Day
 from objects.generic_object import GenericObejct
-from objects.creation_mixin import CreationMixin
+from objects.day_place_mixin import DayPlaceMixin
 import pandas as pd
 
 REPO_PATH = os.getcwd()
@@ -9,7 +8,7 @@ DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
 ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
 
 
-class Place(GenericObejct, CreationMixin):
+class Place(GenericObejct, DayPlaceMixin):
     def __init__(self,
                  name,
                  days_number,
@@ -27,65 +26,14 @@ class Place(GenericObejct, CreationMixin):
 
         self.path = [name]
 
-    # def create_place(self):
-    #     self.change_value(
-    #         {},
-    #         self.path
-    #     )
-    #     for i in range(self.days_number):
-    #         day = Day(
-    #             self.name,
-    #             i + 1,
-    #             None,
-    #             self.input_data_path,
-    #             self.output_data_path,
-    #         )
-    #         day.data_file = self.data_file
-    #         day.create_day()
-    #         self.data_file = day.data_file
-    #     for occupation in ["Activites", "Hebergements"]:
-    #         self.change_value(
-    #             {},
-    #             self.path + [occupation]
-    #         )
+    def get_type_cost_for_place(self, type):
+        return self.get_place_type_cost(type, self.days_number, self.name)
 
-    def get_place_type_cost(self, type):
-        type_cost = 0
-        for i in range(self.days_number):
-            day = Day(
-                self.name,
-                i + 1,
-                None,
-                self.input_data_path,
-                self.output_data_path,
-            )
-            day.data_file = self.data_file
-            type_cost += day.get_type_cost(type)
-        return type_cost
+    def get_cost(self):
+        return self.get_place_cost(self.days_number, self.name)
 
-    def get_place_cost(self):
-        types = ["Activites", "Repas", "Transports", "Hebergements"]
-        total = 0
-        for type in types:
-            total += self.get_place_type_cost(type)
-        self.cost = total
-        return total
-
-    def get_days_dataframe(self):
-        costs = []
-        days = []
-        for i in range(self.days_number):
-            day = Day(
-                self.name,
-                i + 1,
-                None,
-                self.input_data_path,
-                self.output_data_path
-            )
-            day.data_file = self.data_file
-            costs.append(day.get_total_cost())
-            days.append(f"Jour {i + 1}")
-        return pd.DataFrame({"Day": days, "cost": costs})
+    def get_place_days_dataframe(self):
+        return self.get_days_dataframe(self.days_number, self.name)
 
     def get_occupation_dataframe(self):
         costs = []

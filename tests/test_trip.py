@@ -1,6 +1,6 @@
 import os
 from objects.trip import Trip
-from utils.json_utils import load_data, save_data
+from utils.json_utils import load_data
 import streamlit as st
 
 REPO_PATH = os.getcwd()
@@ -65,10 +65,25 @@ def test_it_returns_places_dataframe():
     )
     trip.get_places(url=st.secrets["KML_URL"])
     trip.get_trip_from_place()
-    trip.data_file = load_data(FULL_OUTPUT_PATH)
 
     df = trip.get_places_dataframe()
 
     assert (
         df["cost"].count() == 8
+    )
+
+
+def test_it_returns_day_trip_number():
+    trip = Trip(
+        INPUT_DATA_PATH,
+        OUTPUT_DATA_PATH,
+        INPUT_ROUTE_PATH
+    )
+    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_trip_from_place()
+
+    number = trip.get_day_trip_number("Siem Reap", 2)
+
+    assert (
+        number == 3
     )

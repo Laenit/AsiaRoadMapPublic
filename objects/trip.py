@@ -1,7 +1,6 @@
 import os
 from objects.generic_object import GenericObejct
-from objects.creation_mixin import CreationMixin
-from objects.place import Place
+from objects.day_place_mixin import DayPlaceMixin
 from utils.kml_mixin import KMLMixin
 from utils.json_utils import load_data, save_data
 from utils.travel_times_route import compute_travel_time_and_route
@@ -13,7 +12,7 @@ DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
 ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
 
 
-class Trip(GenericObejct, KMLMixin, CreationMixin):
+class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
     def __init__(self,
                  input_data_path=DATA_PATH,
                  output_data_path=DATA_PATH,
@@ -89,13 +88,7 @@ class Trip(GenericObejct, KMLMixin, CreationMixin):
         for data in self.places:
             name = data["city"]
             days = data["days"]
-            place = Place(
-                name,
-                days,
-                self.input_data_path,
-                self.output_data_path
-            )
-            cost = place.get_place_cost()
+            cost = self.get_place_cost(days, name)
             costs.append(cost)
             names.append(name)
             places_days.append(days)
@@ -120,13 +113,10 @@ class Trip(GenericObejct, KMLMixin, CreationMixin):
     def get_trip_days_dataframe(self):
         final_dataframe = pd.DataFrame({})
         for data in self.places():
-            place = Place(
-                data["city"],
-                data["days"],
-                self.input_data_path,
-                self.output_data_path
-            )
-            place_df = place.get_days_dataframe()
+            place_df = self.get_days_dataframe(data["days"], data["city"])
             place_df["place"] = [data["city"]] * data["days"]
             final_dataframe.concat(place_df)
+        final_dataframe["day_number_trip"] = final_dataframe.apply(
+            lambda row: self.get_day_trip_number(row["place"], row["day_number"])
+        )
         return final_dataframe

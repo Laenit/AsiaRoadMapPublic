@@ -1,13 +1,12 @@
 import os
 from objects.generic_object import GenericObejct
-from objects.creation_mixin import CreationMixin
-import pandas as pd
+from objects.day_place_mixin import DayPlaceMixin
 
 REPO_PATH = os.getcwd()
 DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
 
 
-class Day(GenericObejct, CreationMixin):
+class Day(GenericObejct, DayPlaceMixin):
     def __init__(self,
                  place,
                  number_place,
@@ -24,39 +23,11 @@ class Day(GenericObejct, CreationMixin):
 
         self.path = [place, f"Jour {number_place}"]
 
-    # def create_day(self):
-    #     self.change_value(
-    #         {
-    #             "Activites": {},
-    #             "Repas": {},
-    #             "Transports": {},
-    #             "Hebergements": {}
-    #         },
-    #         self.path
-    #     )
+    def get_day_type_dataframe(self, type):
+        return self.get_type_dataframe(type, self.path)
 
-    def get_type_dataframe(self, type):
-        type_path = self.path + [type]
-        occupations = self.get_information(type_path)
-        costs = []
-        payement_status = []
-        names = []
-        for occupation, _ in occupations.items():
-            occupation_path = type_path + [occupation]
-            occupation_informations = self.get_information(occupation_path)
-            costs.append(occupation_informations["cost"])
-            payement_status.append(occupation_informations["payement_status"])
-            names.append(occupation)
-        return pd.DataFrame({"cost": costs, "name": names, "payement_status": payement_status})
+    def get_day_type_cost(self, type):
+        return self.get_type_cost(type, self.path)
 
-    def get_type_cost(self, type):
-        dataframe = self.get_type_dataframe(type)
-        return dataframe["cost"].sum()
-
-    def get_total_cost(self):
-        types = self.get_information(self.path)
-        total = 0
-        for type in types:
-            total += self.get_type_cost(type)
-        self.cost = total
-        return total
+    def get_day_total_cost(self):
+        return self.get_total_cost(self.path)
