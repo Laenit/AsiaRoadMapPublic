@@ -87,3 +87,23 @@ def test_it_returns_day_trip_number():
     assert (
         number == 3
     )
+
+
+def test_it_returns_days_trip_dataframe():
+    trip = Trip(
+        INPUT_DATA_PATH,
+        OUTPUT_DATA_PATH,
+        INPUT_ROUTE_PATH
+    )
+    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_trip_from_place()
+
+    df = trip.get_trip_days_dataframe()
+
+    assert (
+        df["day"].count() == 21
+    )
+
+    assert (
+        df["day_number_trip"].iloc[-1] == 21
+    )

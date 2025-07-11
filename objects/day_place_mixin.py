@@ -68,7 +68,7 @@ class DayPlaceMixin:
             costs.append(self.get_total_cost([name, f"Jour {i + 1}"]))
             days.append(f"Jour {i + 1}")
             days_numbers.append(i + 1)
-        return pd.DataFrame({"Day": days, "cost": costs, "day_number": days_numbers})
+        return pd.DataFrame({"day": days, "cost": costs, "day_number": days_numbers})
 
     def get_place_type_cost(self, type, days_number, name):
         type_cost = 0

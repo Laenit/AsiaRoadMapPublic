@@ -104,7 +104,7 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         counter = 0
         selected_place = self.places[0]
         idx_place = 0
-        while selected_place != place:
+        while selected_place["city"] != place:
             counter += selected_place["days"]
             idx_place += 1
             selected_place = self.places[idx_place]
@@ -112,11 +112,12 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
 
     def get_trip_days_dataframe(self):
         final_dataframe = pd.DataFrame({})
-        for data in self.places():
+        for data in self.places:
             place_df = self.get_days_dataframe(data["days"], data["city"])
             place_df["place"] = [data["city"]] * data["days"]
-            final_dataframe.concat(place_df)
+            final_dataframe = pd.concat([final_dataframe, place_df])
+        print(final_dataframe)
         final_dataframe["day_number_trip"] = final_dataframe.apply(
-            lambda row: self.get_day_trip_number(row["place"], row["day_number"])
+            lambda row: self.get_day_trip_number(row["place"], row["day_number"]), axis=1
         )
         return final_dataframe
