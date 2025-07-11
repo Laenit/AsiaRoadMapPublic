@@ -46,5 +46,7 @@ def test_it_returns_occuaption_dataframe():
     )
 
     df = place.get_occupation_dataframe()
-    print(df)
-    #TODO: add assertion
+
+    assert (
+        df["cost"].sum() == 50
+    )

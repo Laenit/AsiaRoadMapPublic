@@ -1,5 +1,5 @@
 import streamlit as st
-from data.json_utils import load_data, save_data
+from utils.json_utils import load_data, save_data
 from utils.utils import format_duration_hm
 from utils.trip import Trip
 

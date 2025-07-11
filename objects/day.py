@@ -1,12 +1,13 @@
 import os
 from objects.generic_object import GenericObejct
+from objects.creation_mixin import CreationMixin
 import pandas as pd
 
 REPO_PATH = os.getcwd()
 DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
 
 
-class Day(GenericObejct):
+class Day(GenericObejct, CreationMixin):
     def __init__(self,
                  place,
                  number_place,
@@ -23,16 +24,16 @@ class Day(GenericObejct):
 
         self.path = [place, f"Jour {number_place}"]
 
-    def create_day(self):
-        self.change_value(
-            {
-                "Activites": {},
-                "Repas": {},
-                "Transports": {},
-                "Hebergements": {}
-            },
-            self.path
-        )
+    # def create_day(self):
+    #     self.change_value(
+    #         {
+    #             "Activites": {},
+    #             "Repas": {},
+    #             "Transports": {},
+    #             "Hebergements": {}
+    #         },
+    #         self.path
+    #     )
 
     def get_type_dataframe(self, type):
         type_path = self.path + [type]

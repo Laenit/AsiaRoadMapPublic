@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 import pandas as pd
-from data.json_utils import load_data, save_data
+from utils.json_utils import load_data, save_data
 
 # --- Fichiers de données
 TRIP_FILE = "trip.json"

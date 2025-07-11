@@ -1,13 +1,15 @@
 import os
 from objects.day import Day
 from objects.generic_object import GenericObejct
+from objects.creation_mixin import CreationMixin
 import pandas as pd
 
 REPO_PATH = os.getcwd()
 DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
+ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
 
 
-class Place(GenericObejct):
+class Place(GenericObejct, CreationMixin):
     def __init__(self,
                  name,
                  days_number,
@@ -25,21 +27,27 @@ class Place(GenericObejct):
 
         self.path = [name]
 
-    def create_place(self):
-        for i in range(self.days_number):
-            day = Day(
-                self.name,
-                i + 1,
-                None,
-                self.input_data_path,
-                self.output_data_path,
-            )
-            day.create_day()
-        for occupation in ["Activites", "Hebergements"]:
-            self.change_value(
-                {},
-                self.path + [occupation]
-            )
+    # def create_place(self):
+    #     self.change_value(
+    #         {},
+    #         self.path
+    #     )
+    #     for i in range(self.days_number):
+    #         day = Day(
+    #             self.name,
+    #             i + 1,
+    #             None,
+    #             self.input_data_path,
+    #             self.output_data_path,
+    #         )
+    #         day.data_file = self.data_file
+    #         day.create_day()
+    #         self.data_file = day.data_file
+    #     for occupation in ["Activites", "Hebergements"]:
+    #         self.change_value(
+    #             {},
+    #             self.path + [occupation]
+    #         )
 
     def get_place_type_cost(self, type):
         type_cost = 0
@@ -51,6 +59,7 @@ class Place(GenericObejct):
                 self.input_data_path,
                 self.output_data_path,
             )
+            day.data_file = self.data_file
             type_cost += day.get_type_cost(type)
         return type_cost
 
@@ -73,10 +82,11 @@ class Place(GenericObejct):
                 self.input_data_path,
                 self.output_data_path
             )
+            day.data_file = self.data_file
             costs.append(day.get_total_cost())
             days.append(f"Jour {i + 1}")
         return pd.DataFrame({"Day": days, "cost": costs})
-    
+
     def get_occupation_dataframe(self):
         costs = []
         days = []
@@ -103,3 +113,6 @@ class Place(GenericObejct):
                 "types": types
             }
         )
+
+    def delete_place(self):
+        self.delete_item(self.path)
