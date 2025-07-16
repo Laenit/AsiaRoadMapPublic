@@ -46,3 +46,6 @@ class GenericOccupation(GenericObejct):
         path_payement_status = self.path + ["payement_status"]
         self.is_paid = not self.is_paid
         self.change_value(self.is_paid, path_payement_status)
+
+    def delete_occupation(self):
+        self.delete_item(self.path)

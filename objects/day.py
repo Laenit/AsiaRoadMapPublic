@@ -21,6 +21,8 @@ class Day(GenericObejct, DayPlaceMixin):
 
         self.cost = None
 
+        self.name = f"Jour {number_place}"
+
         self.path = [place, f"Jour {number_place}"]
 
     def get_day_type_dataframe(self, type):
@@ -31,3 +33,7 @@ class Day(GenericObejct, DayPlaceMixin):
 
     def get_day_total_cost(self):
         return self.get_total_cost(self.path)
+
+    def get_occupation_information(self, occupation):
+        occupation_path = self.path + [occupation]
+        return self.get_information(occupation_path)

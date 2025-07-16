@@ -12,13 +12,13 @@ OUTPUT_DATA_PATH = os.path.join(
 FULL_OUTPUT_PATH = os.path.join(REPO_PATH, "tests", "data", "output", "trip", "full_trip.json")
 
 
-def test_it_get_places():
+def test_it_initializes_places():
     trip = Trip(
         INPUT_DATA_PATH,
         OUTPUT_DATA_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.initialize_places(url=st.secrets["KML_URL"])
 
     assert (
         trip.places[0]["city"] == "Bangkok"
@@ -31,7 +31,8 @@ def test_it_initialise_trip():
         OUTPUT_DATA_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_places_from_file()
+    print(trip.places)
     trip.get_trip_from_place()
 
     assert (
@@ -49,7 +50,7 @@ def test_it_create_route_file():
         OUTPUT_DATA_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_places_from_file()
     trip.get_travel_time_and_routes(st.secrets["ORS_API_KEY"])
 
     assert (
@@ -63,7 +64,7 @@ def test_it_returns_places_dataframe():
         FULL_OUTPUT_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_places_from_file()
     trip.get_trip_from_place()
 
     df = trip.get_places_dataframe()
@@ -79,7 +80,7 @@ def test_it_returns_day_trip_number():
         OUTPUT_DATA_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_places_from_file()
     trip.get_trip_from_place()
 
     number = trip.get_day_trip_number("Siem Reap", 2)
@@ -95,7 +96,7 @@ def test_it_returns_days_trip_dataframe():
         OUTPUT_DATA_PATH,
         INPUT_ROUTE_PATH
     )
-    trip.get_places(url=st.secrets["KML_URL"])
+    trip.get_places_from_file()
     trip.get_trip_from_place()
 
     df = trip.get_trip_days_dataframe()

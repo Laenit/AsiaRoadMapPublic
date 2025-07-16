@@ -23,9 +23,14 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         self.route_path = route_path
 
         self.places = None
+        self.travel_times = None
+        self.routes_geojson = None
 
-    def get_places(self, url):
+    def initialize_places(self, url):
         self.places = self.get_place_from_kml_url(url)
+
+    def get_places_from_file(self):
+        self.places = load_data(self.route_path)["places"]
 
     def get_trip_from_place(self):
         existing_cities = []
@@ -39,19 +44,14 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         # --- Charger ou initialiser les données de route.json ---
         if os.path.exists(self.route_path):
             route_data = load_data(self.route_path)
-            cached_places = route_data.get("places", [])
-            cached_travel_times = route_data.get("travel_times", [])
-            cached_routes_geojson = route_data.get("routes_geojson", [])
+            self.places = route_data.get("places", [])
+            self.travel_times = route_data.get("travel_times", [])
+            self.routes_geojson = route_data.get("routes_geojson", [])
         else:
             route_data = {}
-            cached_places = []
-            cached_travel_times = []
-            cached_routes_geojson = []
-
-        # --- Initialiser les listes si tailles différentes ---
-        if len(cached_places) != len(self.places):
-            cached_travel_times = [None] * (len(self.places) - 1)
-            cached_routes_geojson = [None] * (len(self.places) - 1)
+            self.places = []
+            self.travel_times = []
+            self.routes_geojson = []
 
         # --- Calculer les trajets manquants ---
         for i in range(len(self.places) - 1):
@@ -60,23 +60,23 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
 
             # Vérifier si déjà calculé et valide
             if (
-                cached_travel_times[i] is not None
-                and cached_travel_times[i] > 0
-                and cached_routes_geojson[i] is not None
+                self.travel_times[i] is not None
+                and self.travel_times[i] > 0
+                and self.routes_geojson[i] is not None
             ):
                 continue
 
             travel_time, route_geojson = compute_travel_time_and_route(
                 from_place, to_place, ors_api_key
             )
-            cached_travel_times[i] = travel_time
-            cached_routes_geojson[i] = route_geojson
+            self.travel_times[i] = travel_time
+            self.routes_geojson[i] = route_geojson
 
             # Sauvegarder après chaque étape pour ne rien perdre
             save_data({
                 "places": self.places,
-                "travel_times": cached_travel_times,
-                "routes_geojson": cached_routes_geojson
+                "travel_times": self.travel_times,
+                "routes_geojson": self.routes_geojson
             }, self.route_path)
 
             time.sleep(0.5)
