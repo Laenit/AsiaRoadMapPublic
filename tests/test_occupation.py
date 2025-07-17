@@ -1,8 +1,5 @@
 import os
-from objects.occupation.generic_occupation import GenericOccupation
-from objects.occupation.activity import Activity
-from objects.occupation.housing import Housing
-
+from objects.occupation.occupation import Occupation
 
 REPO_PATH = os.getcwd()
 INPUT_DATA_PATH = os.path.join(REPO_PATH, "tests", "data", "trip_input.json")
@@ -21,11 +18,13 @@ OUTPUT_CREATE = os.path.join(
 
 
 def test_it_creates_acitivity():
-    activity = Activity(
+    activity = Occupation(
         "Temple",
         60,
+        "Activites",
         "Siem Reap",
         None,
+        True,
         INPUT_DATA_PATH,
         OUTPUT_NAME_DATA_PATH
     )
@@ -38,16 +37,18 @@ def test_it_creates_acitivity():
 
 
 def test_it_changes_housing_days():
-    housing = Housing(
+    housing = Occupation(
         "gaga",
         20,
+        "Hebergements",
         "Siem Reap",
         None,
-        INPUT_DATA_PATH,
-        OUTPUT_HOUSING_DAYS
+        general=True,
+        input_data_path=INPUT_DATA_PATH,
+        output_data_path=OUTPUT_HOUSING_DAYS
     )
     housing.create_occupation()
-    housing.define_days(["Jour 2", "Jour 3"])
+    housing.define_housing_days(["Jour 2", "Jour 3"])
 
     assert (
         housing.data_file["Siem Reap"]["Hebergements"]["gaga"]["day"] == ["Jour 2", "Jour 3"]
@@ -59,33 +60,36 @@ def test_it_changes_housing_days():
 
 
 def test_it_changes_activity_days():
-    housing = Activity(
+    activity = Occupation(
         "Bateau",
         30,
+        "Activites",
         "Siem Reap",
         None,
+        True,
         INPUT_DATA_PATH,
         OUTPUT_ACTIVITY_DAYS
     )
-    housing.create_occupation()
-    housing.define_days("Jour 2")
+    activity.create_occupation()
+    activity.define_activity_days("Jour 2")
 
     assert (
-        housing.data_file["Siem Reap"]["Activites"]["Bateau"]["day"] == "Jour 2"
+        activity.data_file["Siem Reap"]["Activites"]["Bateau"]["day"] == "Jour 2"
     )
 
     assert (
-        housing.data_file["Siem Reap"]["Jour 2"]["Activites"]["Bateau"]["cost"] == 30
+        activity.data_file["Siem Reap"]["Jour 2"]["Activites"]["Bateau"]["cost"] == 30
     )
 
 
 def test_it_creates_occupation():
-    occupation = GenericOccupation(
+    occupation = Occupation(
         "Taxi",
         5,
         "Repas",
         "Siem Reap",
         "Jour 3",
+        False,
         INPUT_DATA_PATH,
         OUTPUT_CREATE
     )
@@ -98,14 +102,14 @@ def test_it_creates_occupation():
 
 
 def test_it_changes_cost():
-    occupation = GenericOccupation(
+    occupation = Occupation(
         "Taxi",
         5,
         "Repas",
         "Siem Reap",
         "Jour 3",
-        INPUT_DATA_PATH,
-        OUTPUT_CREATE
+        input_data_path=INPUT_DATA_PATH,
+        output_data_path=OUTPUT_CREATE
     )
 
     occupation.create_occupation()
@@ -117,12 +121,13 @@ def test_it_changes_cost():
 
 
 def test_it_changes_payement_status():
-    occupation = GenericOccupation(
+    occupation = Occupation(
         "Taxi",
         5,
         "Repas",
         "Siem Reap",
         "Jour 3",
+        False,
         INPUT_DATA_PATH,
         OUTPUT_CREATE
     )

@@ -40,6 +40,10 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
             if place['city'] not in existing_cities:
                 self.create_place(place["city"], place["days"])
 
+    def get_travel_time_and_routes_from_file(self):
+        self.travel_times = load_data(self.route_path)["travel_times"]
+        self.routes_geojson = load_data(self.route_path)["routes_geojson"]
+
     def get_travel_time_and_routes(self, ors_api_key):
         # --- Charger ou initialiser les données de route.json ---
         if os.path.exists(self.route_path):

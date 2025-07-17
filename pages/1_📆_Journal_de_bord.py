@@ -3,7 +3,7 @@ from utils.utils import format_duration_hm
 from objects.trip import Trip
 from objects.place import Place
 from objects.day import Day
-from objects.occupation.generic_occupation import GenericOccupation
+from objects.occupation.occupation import Occupation
 
 
 # Journal de bord
@@ -12,6 +12,7 @@ st.subheader("📆 C'est quoi le plan ?")
 trip = Trip()
 trip.get_places_from_file()
 trip.get_trip_from_place()
+trip.get_travel_time_and_routes_from_file()
 
 
 # Ajout : On synchronise trip.places si nécessaire
@@ -54,7 +55,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                 if st.button(
                                     "Ajouter", key=f"{place.name},{day.name},{type}"
                                 ) and new_occupation:
-                                    occupation = GenericOccupation(
+                                    occupation = Occupation(
                                         new_occupation,
                                         cost,
                                         type,
@@ -72,9 +73,10 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                     trip.data_file[place.name][day.name][type]
                                 ):
                                     occupation_data = day.get_occupation_information(
+                                        type,
                                         occupation_name
                                     )
-                                    occupation = GenericOccupation(
+                                    occupation = Occupation(
                                         occupation_name,
                                         occupation_data["cost"],
                                         type,
@@ -97,11 +99,11 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                                     value=occupation.name,
                                                     label_visibility="collapsed"
                                                 )
-                                            if new_name != occupation.name:
-                                                occupation.rename(new_name)
-                                                st.rerun()
-                                            else:
-                                                st.markdown(f"**{occupation.name}**")
+                                                if new_name != occupation.name:
+                                                    occupation.rename(new_name)
+                                                    st.rerun()
+                                                else:
+                                                    st.markdown(f"**{occupation.name}**")
                                     with cols[1]:
                                         new_price = st.number_input(
                                             label=" ",
@@ -130,6 +132,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                         trip.data_file[place.name][day.name][type]
                                     ):
                                         occupation_data = day.get_occupation_information(
+                                            type,
                                             occupation_name
                                         )
                                         cols = st.columns([3, 2])
@@ -138,265 +141,167 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                         with cols[1]:
                                             st.markdown(f"{occupation_data["cost"]} €")
             else:
-                with st.expander(f"{cat}"):
+                type = day_name
+                with st.expander(type):
                     col1, col2 = st.columns(2)
                     with col1:
-                        new_activity = st.text_input(
-                            "Nom", key=f"{place},{cat},txt"
+                        new_occupation = st.text_input(
+                            "Nom", key=f"{place.name},{type},txt"
                         )
                     with col2:
                         cost = st.number_input(
-                            "Prix pour deux (€)", key=f"{place},{cat},cost"
+                            "Prix pour deux (€)", key=f"{place.name},{type},cost"
                         )
                     if st.button(
-                        "Ajouter", key=f"{place},{cat}"
-                    ) and new_activity:
-                        if cat == "Activites":
-                            trip.data_file[place][cat][new_activity] = [cost, "0"]
-                        if cat == "Hebergements":
-                            trip.data_file[place][cat][new_activity] = [cost, []]
-                        save_data(trip.data_file, DATA_FILE)
-                        st.success(f"{new_activity} ajouté(e) !")
-                    if trip.data_file[place][cat]:
+                        "Ajouter", key=f"{place.name},{type}"
+                    ) and new_occupation:
+                        occupation = Occupation(
+                            new_occupation,
+                            cost,
+                            type,
+                            place.name,
+                            day=None,
+                            general=True
+                        )
+                        occupation.create_occupation()
+                        st.success(f"{new_occupation} ajouté(e) !")
+                        st.rerun()
+                    if trip.data_file[place.name][type]:
                         header_col = st.columns([1, 3, 2, 3, 2])
                         header_col[0].markdown("**✔️**")
                         header_col[1].markdown("**Nom**")
                         header_col[2].markdown("**Montant (€)**")
                         header_col[3].markdown("**Jour(s)**")
                         header_col[4].markdown("**Supprimer**")
-                        for name, cost_jour in trip.data_file[place][cat].items():
+                        for occupation_name in trip.data_file[place.name][type]:
+                            occupation_data = place.get_occupation_information(
+                                type,
+                                occupation_name
+                            )
+                            occupation = Occupation(
+                                new_occupation,
+                                cost,
+                                type,
+                                place.name,
+                                day=None,
+                                general=True
+                            )
                             cols = st.columns([1, 3, 2, 3, 2])
                             with cols[0]:
                                 st.checkbox(
                                     " ",
-                                    key=f"{place}_{cat}_{name}",
+                                    key=f"{place.name}_{type}_{occupation.name}",
                                 )
                             with cols[1]:
                                 col_name = st.columns([1, 1.5])
                                 with col_name[1]:
                                     is_on = st.toggle(
                                         label="Editer",
-                                        key=f"{place}_{cat}_toggle",
+                                        key=f"{place.name}_{type}_toggle",
                                         value=False,
                                     )
                                 with col_name[0]:
                                     if is_on:
                                         new_name = st.text_input(
                                             label=" ",
-                                            value=name,
+                                            value=occupation.name,
                                             label_visibility="collapsed"
                                         )
-                                        if new_name != name:
-                                            del trip.data_file[place][cat][name]
-                                            trip.data_file[place][cat][new_name] = cost_jour
-                                            if cat == "Activites":
-                                                del trip.data_file[place][
-                                                    "Jours"
-                                                ][cost_jour[1]][name]
-                                                trip.data_file[place][
-                                                    "Jours"
-                                                ][cost_jour[1]][cat][new_name] = cost_jour[0]
-                                            else:
-                                                for jour in cost_jour[1]:
-                                                    del trip.data_file[place][
-                                                        "Jours"
-                                                    ][jour][cat][name]
-                                                    trip.data_file[place][
-                                                        "Jours"
-                                                    ][jour][cat][new_name] = cost_jour[0]
-                                            save_data(trip.data_file, DATA_FILE)
+                                        if new_name != occupation.name:
+                                            occupation.rename(new_name)
                                             st.rerun()
                                     else:
-                                        st.markdown(f"**{name}**")
+                                        st.markdown(f"**{occupation.name}**")
                             with cols[2]:
                                 new_price = st.number_input(
                                     label=" ",
-                                    value=cost_jour[0],
+                                    value=occupation.cost,
                                     label_visibility="collapsed",
-                                    key=f"{place}_{cat}_price"
+                                    key=f"{place.name}_{type}_price"
                                 )
                                 if (
-                                    new_price != (
-                                        trip.data_file[place][cat][name][0]
-                                    )
+                                    new_price != occupation.cost
                                 ):
-                                    trip.data_file[place][cat][name] = [
-                                        new_price, cost_jour[1]
-                                    ]
-                                    save_data(trip.data_file, DATA_FILE)
+                                    occupation.change_cost(new_price)
                                     st.rerun()
                             with cols[3]:
                                 jours_possibles = [
-                                    j for j in trip.data_file[place]["Jours"].keys()
+                                    j for j in place.get_information(place.path)
                                     if j.startswith("Jour")
                                 ]
-                                if cat == "Activites":
-                                    jour_select = st.selectbox(
+                                if occupation.day:
+                                    index = int(occupation.day[-1])
+                                    default = index
+                                else:
+                                    index = 0
+                                    default = []
+                                if type == "Activites":
+                                    selected_day = st.selectbox(
                                         "Jour",
-                                        ["0"] + jours_possibles,
-                                        key=f"{place}_{cat}_select",
-                                        index=int(trip.data_file[place][cat][name][1][-1]),
+                                        ["Aucun"] + jours_possibles,
+                                        key=f"{place.name}_{type}_select",
+                                        index=index,
                                         label_visibility="collapsed"
                                     )
-                                    previous_day = trip.data_file[place][cat][name][1]
-                                    if (
-                                        jour_select != "0" and
-                                        name not in (
-                                            list(
-                                                trip.data_file[place]["Jours"][jour_select][
-                                                    cat
-                                                ].keys()
-                                            )
-                                        )
-                                    ):
-                                        trip.data_file[place]["Jours"][jour_select][cat][name] = (
-                                            cost_jour[0]
-                                        )
-                                        trip.data_file[place][cat][name] = [
-                                            cost_jour[0],
-                                            jour_select,
-                                        ]
-                                        save_data(trip.data_file, DATA_FILE)
+                                    if selected_day != occupation.day and selected_day != "Aucun":
+                                        occupation.define_activity_days(selected_day)
                                         st.rerun()
-                                    if previous_day != "0" and previous_day != jour_select:
-                                        del (
-                                            trip.data_file[place]["Jours"][previous_day][cat][
-                                                name
-                                            ]
-                                        )
-                                        trip.data_file[place][cat][name] = [
-                                            cost_jour[0],
-                                            jour_select,
-                                        ]
-                                        save_data(trip.data_file, DATA_FILE)
-                                        st.rerun()
-                                if cat == "Hebergements":
-                                    jours_select = st.multiselect(
+                                if type == "Hebergements":
+                                    selected_days = st.multiselect(
                                         "Jours",
                                         jours_possibles,
-                                        key=f"{place}_{cat}_select",
-                                        default=trip.data_file[place][cat][name][1],
+                                        key=f"{place.name}_{type}_select",
+                                        default=default,
                                         label_visibility="collapsed",
                                     )
-                                    previous_days = trip.data_file[place][cat][name][1]
-                                    for jour_select in jours_select:
-                                        if (
-                                            name not in (
-                                                list(
-                                                    trip.data_file[place]["Jours"][jour_select][
-                                                        cat
-                                                    ].keys()
-                                                )
-                                            )
-                                        ):
-                                            trip.data_file[place]["Jours"][jour_select][cat][
-                                                name
-                                            ] = (
-                                                cost_jour[0]
-                                            )
-                                            trip.data_file[place][cat][name][1].append(jour_select)
-                                            save_data(trip.data_file, DATA_FILE)
-                                            st.rerun()
-                                    for previous_day in previous_days:
-                                        if previous_day not in jours_select:
-                                            del trip.data_file[place]["Jours"][previous_day][cat][
-                                                name
-                                            ]
-                                            trip.data_file[place][cat][name][1].remove(previous_day)
-                                            save_data(trip.data_file, DATA_FILE)
-                                            st.rerun()
+                                    if selected_days != occupation.day and selected_days != []:
+                                        occupation.define_housing_days(selected_days)
+                                        st.rerun()
                             with cols[4]:
                                 if st.button(
                                     "🗑️",
-                                    key=f"d_{place}_{cat}_{name}",
+                                    key=f"d_{place.name}_{type}_{occupation.name}",
                                 ):
-                                    suppression_cat.append((place, cat, name))
+                                    occupation.delete_occupation()
+                                    st.rerun()
 
     if i < len(trip.places) - 1:
-        if (
-            f"Trajet vers {trip.places[i+1]['city']}"
-            not in trip.data_file[trip.places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"].keys()
-        ):
-            trip.data_file[trip.places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
-                            f"Trajet vers {trip.places[i+1]['city']}"
-                        ] = 0
+        day = Day(
+            trip.places[i+1]["city"],
+            1,
+            None
+        )
+
+        if f"Trajet vers {trip.places[i+1]['city']}" not in day.get_type_information("Transports"):
+            occupation_cost = 0
+        else:
+            occupation_cost = (
+                day.get_occupation_information(
+                    "Transports", f"Trajet vers {trip.places[i+1]['city']}"
+                )["cost"]
+            )
+        occupation = Occupation(
+            f"Trajet vers {trip.places[i+1]['city']}",
+            occupation_cost,
+            "Transports",
+            trip.places[i+1]["city"],
+            "Jour 1",
+        )
         col1, col2 = st.columns(2)
         with col1:
             st.markdown(
-                f"→ 🚍 Trajet vers **{trip.places[i+1]['city']}**"
-                f" : {format_duration_hm(travel_times[i])}"
+                f"→ 🚍 Trajet vers **{occupation.place}**"
+                f" : {format_duration_hm(trip.travel_times[i])}"
             )
         with col2:
             new_price = st.number_input(
                 label="Prix pour deux (€)",
                 min_value=0,
-                value=(
-                    trip.data_file[trip.places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
-                        f"Trajet vers {trip.places[i+1]['city']}"
-                    ]
-                ),
-                key=f"{trip.places[i+1]['city']}_transports"
+                value=occupation.cost,
+                key=f"{occupation.place}_transports"
             )
             if (
-                new_price != trip.data_file[trip.places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
-                        f"Trajet vers {trip.places[i+1]['city']}"
-                    ]
+                new_price != occupation.cost
             ):
-                trip.data_file[trip.places[i+1]["city"]]["Jours"]["Jour 1"]["Transports"][
-                        f"Trajet vers {trip.places[i+1]['city']}"
-                    ] = new_price
-                save_data(trip.data_file, DATA_FILE)
+                occupation.change_cost(new_price)
                 st.rerun()
-
-# Suppression des étapes entières
-if suppression_etape:
-    for index in sorted(suppression_etape, reverse=True):
-        place_name = trip.places[index]["city"]
-        # Supprime de data_file
-        if place_name in trip.data_file:
-            del trip.data_file[place_name]
-        # Supprime de trip.places et travel_times dans route_data
-        del trip.places[index]
-        if index > 0:
-            del travel_times[index - 1]
-        else:
-            del travel_times[0]
-    # Sauvegarde
-    save_data(trip.data_file, DATA_FILE)
-    save_data({"trip.places": trip.places, "travel_times": travel_times}, ROUTE_FILE)
-    st.success("✅ Étape supprimée avec succès !")
-    st.rerun()
-
-# Suppression des grandes actis
-if suppression_cat:
-    for place, cat, name in suppression_cat:
-        if cat == "Activites":
-            try:
-                jour_select = trip.data_file[place][cat][name][1]
-                del trip.data_file[place][cat][name]
-                if jour_select != "0":
-                    del trip.data_file[place]["Jours"][jour_select][cat][name]
-            except IndexError:
-                pass
-        if cat == "Hebergements":
-            try:
-                jours_select = trip.data_file[place][cat][name][1]
-                del trip.data_file[place][cat][name]
-                for jour_select in jours_select:
-                    del trip.data_file[place]["Jours"][jour_select][cat][name]
-            except IndexError:
-                pass
-    save_data(trip.data_file, DATA_FILE)
-    st.success("✅ Élément(s) supprimé(s) avec succès !")
-    st.rerun()
-
-# Suppression d’activités individuelles
-if suppression:
-    for place, jour, act, name in suppression:
-        try:
-            del trip.data_file[place]["Jours"][jour][act][name]
-        except IndexError:
-            pass
-    save_data(trip.data_file, DATA_FILE)
-    st.success("✅ Élément(s) supprimé(s) avec succès !")
-    st.rerun()

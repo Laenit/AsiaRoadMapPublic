@@ -33,7 +33,3 @@ class Day(GenericObejct, DayPlaceMixin):
 
     def get_day_total_cost(self):
         return self.get_total_cost(self.path)
-
-    def get_occupation_information(self, occupation):
-        occupation_path = self.path + [occupation]
-        return self.get_information(occupation_path)

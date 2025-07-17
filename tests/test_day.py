@@ -31,3 +31,9 @@ def test_it_returns_total_cost():
     total_cost = day.get_day_total_cost()
 
     assert total_cost == 100
+
+
+def test_it_returns_type_informations():
+    day = Day("Siem Reap", 1, 10, INPUT_DATA_PATH, OUTPUT_DF_DATA_PATH)
+
+    assert "Angkor Vat" in day.get_type_information("Activites")

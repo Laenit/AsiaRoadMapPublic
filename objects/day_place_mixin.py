@@ -75,3 +75,11 @@ class DayPlaceMixin:
         for i in range(days_number):
             type_cost += self.get_type_cost(type, [name, f"Jour {i + 1}"])
         return type_cost
+
+    def get_occupation_information(self, type, occupation):
+        occupation_path = self.path + [type, occupation]
+        return self.get_information(occupation_path)
+
+    def get_type_information(self, type):
+        type_path = self.path + [type]
+        return self.get_information(type_path)
