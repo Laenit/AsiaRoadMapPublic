@@ -155,7 +155,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                     if st.button(
                         "Ajouter", key=f"{place.name},{type}"
                     ) and new_occupation:
-                        occupation = Occupation(
+                        occupation_add = Occupation(
                             new_occupation,
                             cost,
                             type,
@@ -163,8 +163,8 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                             day=None,
                             general=True
                         )
-                        occupation.create_occupation()
-                        st.success(f"{new_occupation} ajouté(e) !")
+                        occupation_add.create_occupation()
+                        st.success(f"{occupation_add.name} ajouté(e) !")
                         st.rerun()
                     if trip.data_file[place.name][type]:
                         header_col = st.columns([1, 3, 2, 3, 2])
@@ -179,25 +179,25 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                 occupation_name
                             )
                             occupation = Occupation(
-                                new_occupation,
-                                cost,
+                                occupation_name,
+                                occupation_data["cost"],
                                 type,
                                 place.name,
-                                day=None,
+                                day=occupation_data["day"],
                                 general=True
                             )
                             cols = st.columns([1, 3, 2, 3, 2])
                             with cols[0]:
                                 st.checkbox(
                                     " ",
-                                    key=f"{place.name}_{type}_{occupation.name}",
+                                    key=f"{place.name}_{type}_{occupation.name}_{occupation.cost}",
                                 )
                             with cols[1]:
                                 col_name = st.columns([1, 1.5])
                                 with col_name[1]:
                                     is_on = st.toggle(
                                         label="Editer",
-                                        key=f"{place.name}_{type}_toggle",
+                                        key=f"{place.name}_{type}_{occupation.name}_toggle",
                                         value=False,
                                     )
                                 with col_name[0]:
@@ -217,7 +217,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                     label=" ",
                                     value=occupation.cost,
                                     label_visibility="collapsed",
-                                    key=f"{place.name}_{type}_price"
+                                    key=f"{place.name}_{type}_{occupation.name}_price"
                                 )
                                 if (
                                     new_price != occupation.cost
@@ -225,36 +225,40 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                     occupation.change_cost(new_price)
                                     st.rerun()
                             with cols[3]:
-                                jours_possibles = [
+                                possibles_days = [
                                     j for j in place.get_information(place.path)
                                     if j.startswith("Jour")
                                 ]
-                                if occupation.day:
-                                    index = int(occupation.day[-1])
-                                    default = index
-                                else:
-                                    index = 0
-                                    default = []
                                 if type == "Activites":
+                                    if occupation.day:
+                                        index = int(occupation.day[-1])
+                                    else:
+                                        index = 0
                                     selected_day = st.selectbox(
                                         "Jour",
-                                        ["Aucun"] + jours_possibles,
+                                        ["Aucun"] + possibles_days,
                                         key=f"{place.name}_{type}_select",
                                         index=index,
                                         label_visibility="collapsed"
                                     )
-                                    if selected_day != occupation.day and selected_day != "Aucun":
+                                    if selected_day != occupation.day:
                                         occupation.define_activity_days(selected_day)
                                         st.rerun()
                                 if type == "Hebergements":
+                                    if occupation.day:
+                                        default = occupation.day
+                                    else:
+                                        default = []
                                     selected_days = st.multiselect(
                                         "Jours",
-                                        jours_possibles,
-                                        key=f"{place.name}_{type}_select",
+                                        possibles_days,
+                                        key=f"{place.name}_{type}_{occupation.name}_select",
                                         default=default,
                                         label_visibility="collapsed",
                                     )
-                                    if selected_days != occupation.day and selected_days != []:
+                                    print(selected_days)
+                                    print(occupation.day)
+                                    if selected_days != occupation.day:
                                         occupation.define_housing_days(selected_days)
                                         st.rerun()
                             with cols[4]:

@@ -90,10 +90,10 @@ class Occupation(GenericObejct):
             for day in self.day:
                 path_previous_day = self.path_general[:-2] + [day] + self.path_general[-2:]
                 self.delete_item(path_previous_day)
+        path_day_value = self.path_general + ["day"]
+        self.change_value(days, path=path_day_value)
         for day in days:
             path_day = self.path_general[:-2] + [day] + self.path_general[-2:]
             information = self.get_information(self.path_general)
             self.change_value(new_value=information, path=path_day)
-        path_day_value = self.path_general + ["day"]
-        self.change_value(days, path=path_day_value)
         self.day = days
