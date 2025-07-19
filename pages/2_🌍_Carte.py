@@ -1,8 +1,8 @@
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
-from utils import format_duration_hm
-from data.json_utils import load_data
+from utils.utils import format_duration_hm
+from utils.json_utils import load_data
 
 ROUTE_FILE = "route.json"
 

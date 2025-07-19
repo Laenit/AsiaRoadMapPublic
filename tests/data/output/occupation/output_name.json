@@ -1,0 +1,76 @@
+{
+  "Siem Reap": {
+    "Jour 1": {
+      "Activites": {
+        "Angkor Vat": {
+          "cost": 60,
+          "payement_status": true
+        }
+      },
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Siem Reap": {
+          "cost": 20,
+          "payement_status": false
+        }
+      },
+      "Hebergements": {
+        "gaga": {
+          "cost": 20.0,
+          "payement_status": false
+        }
+      }
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {
+        "oui": {
+          "cost": 30,
+          "payement_status": true
+        }
+      }
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 5": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {
+      "Bateau": {
+        "cost": 30,
+        "payement_status": false,
+        "day": "Jour 2"
+      },
+      "Temple": {
+        "cost": 60,
+        "payement_status": false,
+        "day": null
+      }
+    },
+    "Hebergements": {
+      "gaga": {
+        "cost": 20,
+        "payement_status": false,
+        "day": [
+          "Jour 2",
+          "Jour 3"
+        ]
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ from io import BytesIO
 
 
 class KMLMixin:
+
     def strip_ns(self, tag):
         return tag.split('}')[-1]
 
