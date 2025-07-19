@@ -3,7 +3,7 @@ from utils.utils import format_duration_hm
 from objects.trip import Trip
 from objects.place import Place
 from objects.day import Day
-from objects.occupation.occupation import Occupation
+from objects.occupation import Occupation
 
 
 # Journal de bord
@@ -102,8 +102,8 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                                 if new_name != occupation.name:
                                                     occupation.rename(new_name)
                                                     st.rerun()
-                                                else:
-                                                    st.markdown(f"**{occupation.name}**")
+                                            else:
+                                                st.markdown(f"**{occupation.name}**")
                                     with cols[1]:
                                         new_price = st.number_input(
                                             label=" ",
@@ -146,11 +146,15 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                     col1, col2 = st.columns(2)
                     with col1:
                         new_occupation = st.text_input(
-                            "Nom", key=f"{place.name},{type},txt"
+                            "Nom",
+                            key=f"{place.name},{type},txt",
+                            value=""
                         )
                     with col2:
                         cost = st.number_input(
-                            "Prix pour deux (€)", key=f"{place.name},{type},cost"
+                            "Prix pour deux (€)",
+                            key=f"{place.name},{type},cost",
+                            value=0
                         )
                     if st.button(
                         "Ajouter", key=f"{place.name},{type}"
@@ -191,6 +195,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                 st.checkbox(
                                     " ",
                                     key=f"{place.name}_{type}_{occupation.name}_{occupation.cost}",
+                                    value=occupation.is_paid,
                                 )
                             with cols[1]:
                                 col_name = st.columns([1, 1.5])
@@ -236,7 +241,7 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                         index = 0
                                     selected_day = st.selectbox(
                                         "Jour",
-                                        ["Aucun"] + possibles_days,
+                                        [None] + possibles_days,
                                         key=f"{place.name}_{type}_select",
                                         index=index,
                                         label_visibility="collapsed"
@@ -256,8 +261,6 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                         default=default,
                                         label_visibility="collapsed",
                                     )
-                                    print(selected_days)
-                                    print(occupation.day)
                                     if selected_days != occupation.day:
                                         occupation.define_housing_days(selected_days)
                                         st.rerun()
@@ -284,28 +287,29 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                     "Transports", f"Trajet vers {trip.places[i+1]['city']}"
                 )["cost"]
             )
-        occupation = Occupation(
+        occupation_trip = Occupation(
             f"Trajet vers {trip.places[i+1]['city']}",
             occupation_cost,
             "Transports",
             trip.places[i+1]["city"],
             "Jour 1",
         )
+        occupation_trip.create_occupation()
         col1, col2 = st.columns(2)
         with col1:
             st.markdown(
-                f"→ 🚍 Trajet vers **{occupation.place}**"
+                f"→ 🚍 Trajet vers **{occupation_trip.place}**"
                 f" : {format_duration_hm(trip.travel_times[i])}"
             )
         with col2:
             new_price = st.number_input(
                 label="Prix pour deux (€)",
                 min_value=0,
-                value=occupation.cost,
-                key=f"{occupation.place}_transports"
+                value=occupation_trip.cost,
+                key=f"{occupation_trip.place}_transports"
             )
             if (
-                new_price != occupation.cost
+                new_price != occupation_trip.cost
             ):
-                occupation.change_cost(new_price)
+                occupation_trip.change_cost(new_price)
                 st.rerun()

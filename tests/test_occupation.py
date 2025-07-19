@@ -1,5 +1,5 @@
 import os
-from objects.occupation.occupation import Occupation
+from objects.occupation import Occupation
 
 REPO_PATH = os.getcwd()
 INPUT_DATA_PATH = os.path.join(REPO_PATH, "tests", "data", "trip_input.json")

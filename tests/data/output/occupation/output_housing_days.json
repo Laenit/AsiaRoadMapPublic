@@ -33,7 +33,10 @@
         "gaga": {
           "cost": 20,
           "payement_status": false,
-          "day": null
+          "day": [
+            "Jour 2",
+            "Jour 3"
+          ]
         }
       }
     },
@@ -45,7 +48,10 @@
         "gaga": {
           "cost": 20,
           "payement_status": false,
-          "day": null
+          "day": [
+            "Jour 2",
+            "Jour 3"
+          ]
         }
       }
     },
