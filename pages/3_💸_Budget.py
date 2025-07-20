@@ -2,11 +2,15 @@ import streamlit as st
 import plotly.express as px
 import pandas as pd
 from utils.json_utils import load_data, save_data
+from objects.trip import Trip
+from objects.costs import Costs
 
-# --- Fichiers de données
-TRIP_FILE = "trip.json"
-ADMIN_FILE = "admin_costs.json"
+trip = Trip()
+trip.get_places_from_file()
+trip.get_trip_from_place()
+trip.get_travel_time_and_routes_from_file()
 
+costs = Costs()
 
 # --- Calcul total par ville
 def calc_costs_per_ville(data):

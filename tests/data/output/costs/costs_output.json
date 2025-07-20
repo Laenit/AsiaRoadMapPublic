@@ -1,0 +1,12 @@
+{
+  "Tente": {
+    "cost": 20,
+    "buyer": "Marie",
+    "category": "Equipement"
+  },
+  "Sac": {
+    "cost": 100,
+    "buyer": "Tinael",
+    "category": "Equipement"
+  }
+}

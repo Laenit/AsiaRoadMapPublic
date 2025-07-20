@@ -65,64 +65,65 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                     occupation.create_occupation()
                                     st.rerun()
                                     st.success(f"{occupation.name} ajouté(e) !")
-                                header_col = st.columns([3, 2, 2])
-                                header_col[0].markdown("**Nom**")
-                                header_col[1].markdown("**Montant (€)**")
-                                header_col[2].markdown("**Supprimer**")
-                                for occupation_name in (
-                                    trip.data_file[place.name][day.name][type]
-                                ):
-                                    occupation_data = day.get_occupation_information(
-                                        type,
-                                        occupation_name
-                                    )
-                                    occupation = Occupation(
-                                        occupation_name,
-                                        occupation_data["cost"],
-                                        type,
-                                        place.name,
-                                        day.name,
-                                    )
-                                    cols = st.columns([3, 2, 2])
-                                    with cols[0]:
-                                        col_name = st.columns([1.5, 1])
-                                        with col_name[1]:
-                                            is_on = st.toggle(
-                                                label="Editer",
-                                                key=f"{place.name}_{day.name}_{type}_toggle",
-                                                value=False,
-                                            )
-                                        with col_name[0]:
-                                            if is_on:
-                                                new_name = st.text_input(
-                                                    label=" ",
-                                                    value=occupation.name,
-                                                    label_visibility="collapsed"
-                                                )
-                                                if new_name != occupation.name:
-                                                    occupation.rename(new_name)
-                                                    st.rerun()
-                                            else:
-                                                st.markdown(f"**{occupation.name}**")
-                                    with cols[1]:
-                                        new_price = st.number_input(
-                                            label=" ",
-                                            value=occupation.cost,
-                                            label_visibility="collapsed",
-                                            key=f"{place.name}_{day.name}_{type}_price"
+                                if trip.data_file[place.name][day.name][type]:
+                                    header_col = st.columns([3, 2, 2])
+                                    header_col[0].markdown("**Nom**")
+                                    header_col[1].markdown("**Montant (€)**")
+                                    header_col[2].markdown("**Supprimer**")
+                                    for occupation_name in (
+                                        trip.data_file[place.name][day.name][type]
+                                    ):
+                                        occupation_data = day.get_occupation_information(
+                                            type,
+                                            occupation_name
                                         )
-                                        if (
-                                            new_price != occupation.cost
-                                        ):
-                                            occupation.change_cost(new_price)
-                                            st.rerun()
-                                    with cols[2]:
-                                        if st.button(
-                                            "🗑️",
-                                            key=f"{place.name}_{day.name}_{type}_delete",
-                                        ):
-                                            occupation.delete_occupation()
-                                            st.rerun()
+                                        occupation = Occupation(
+                                            occupation_name,
+                                            occupation_data["cost"],
+                                            type,
+                                            place.name,
+                                            day.name,
+                                        )
+                                        cols = st.columns([3, 2, 2])
+                                        with cols[0]:
+                                            col_name = st.columns([1.5, 1])
+                                            with col_name[1]:
+                                                is_on = st.toggle(
+                                                    label="Editer",
+                                                    key=f"{place.name}_{day.name}_{type}_toggle",
+                                                    value=False,
+                                                )
+                                            with col_name[0]:
+                                                if is_on:
+                                                    new_name = st.text_input(
+                                                        label=" ",
+                                                        value=occupation.name,
+                                                        label_visibility="collapsed"
+                                                    )
+                                                    if new_name != occupation.name:
+                                                        occupation.rename(new_name)
+                                                        st.rerun()
+                                                else:
+                                                    st.markdown(f"**{occupation.name}**")
+                                        with cols[1]:
+                                            new_price = st.number_input(
+                                                label=" ",
+                                                value=occupation.cost,
+                                                label_visibility="collapsed",
+                                                key=f"{place.name}_{day.name}_{type}_price"
+                                            )
+                                            if (
+                                                new_price != occupation.cost
+                                            ):
+                                                occupation.change_cost(new_price)
+                                                st.rerun()
+                                        with cols[2]:
+                                            if st.button(
+                                                "🗑️",
+                                                key=f"{place.name}_{day.name}_{type}_delete",
+                                            ):
+                                                occupation.delete_occupation()
+                                                st.rerun()
                             else:
                                 if trip.data_file[place.name][day.name][type]:
                                     header_col = st.columns([3, 2])
