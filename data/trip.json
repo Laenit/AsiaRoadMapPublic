@@ -2,54 +2,60 @@
   "Bangkok": {
     "Jour 1": {
       "Activites": {
-        "afa": {
-          "cost": 30.0,
+        "vbn,;": {
+          "cost": 20.0,
           "payement_status": false,
           "day": null
         }
       },
-      "Repas": {},
-      "Transports": {},
-      "Hebergements": {
-        "sad": {
-          "cost": 20.0,
-          "payement_status": false,
-          "day": [
-            "Jour 1"
-          ]
-        }
-      }
-    },
-    "Activites": {
-      "afa": {
-        "cost": 30.0,
-        "payement_status": false,
-        "day": "Jour 1"
-      }
-    },
-    "Hebergements": {
-      "sad": {
-        "cost": 20.0,
-        "payement_status": false,
-        "day": [
-          "Jour 1"
-        ]
-      }
-    }
-  },
-  "Siem Reap": {
-    "Jour 1": {
-      "Activites": {},
       "Repas": {
-        "qkjgqa": {
+        "za": {
           "cost": 0.0,
           "payement_status": false,
           "day": "Jour 1"
         }
       },
       "Transports": {
+        "": {
+          "cost": 0.0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Activites": {
+      "vbn,;": {
+        "cost": 20.0,
+        "payement_status": false,
+        "day": "Jour 1"
+      },
+      "zdgnae": {
+        "cost": 20.0,
+        "payement_status": false,
+        "day": null
+      }
+    },
+    "Hebergements": {}
+  },
+  "Siem Reap": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {
+        "agdqs": {
+          "cost": 0.0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Siem Reap": {
-          "cost": 50,
+          "cost": 0,
           "payement_status": false,
           "day": "Jour 1"
         }
@@ -81,31 +87,20 @@
       "Hebergements": {}
     },
     "Activites": {},
-    "Hebergements": {
-      "qsfqc": {
-        "cost": 20,
-        "payement_status": false,
-        "day": []
-      },
-      "DQFQqsfq": {
-        "cost": 30,
-        "payement_status": false,
-        "day": []
-      },
-      "qfqf<sgn": {
-        "cost": 20.0,
-        "payement_status": false,
-        "day": []
-      }
-    }
+    "Hebergements": {}
   },
   "Battambang": {
     "Jour 1": {
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Battambang": {
-          "cost": 20,
+          "cost": 0,
           "payement_status": false,
           "day": "Jour 1"
         }
@@ -126,6 +121,11 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Phnom Penh": {
           "cost": 0,
           "payement_status": false,
@@ -166,6 +166,11 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Kampong Cham": {
           "cost": 0,
           "payement_status": false,
@@ -182,6 +187,11 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Kratie": {
           "cost": 0,
           "payement_status": false,
@@ -204,6 +214,11 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Banlung": {
           "cost": 0,
           "payement_status": false,
@@ -238,6 +253,11 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
+        "": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        },
         "Trajet vers Stoeng Treng": {
           "cost": 0,
           "payement_status": false,
