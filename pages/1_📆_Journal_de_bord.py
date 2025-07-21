@@ -113,8 +113,10 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                                         key=f"b_{place.name}{day.name}"
                                                         f"{type}{occupation.name}"
                                                     ):
-                                                        occupation.change_cost(new_price)
-                                                        occupation.rename(new_name)
+                                                        if new_price != occupation.cost:
+                                                            occupation.change_cost(new_price)
+                                                        if new_name != occupation.name:
+                                                            occupation.rename(new_name)
                                                         st.rerun()
                                                 if st.button(
                                                     "🗑️ Supprimer",
@@ -257,8 +259,10 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                             key=f"b_{place.name}{day.name}"
                                             f"{type}{occupation.name}"
                                         ):
-                                            occupation.change_cost(new_price)
-                                            occupation.rename(new_name)
+                                            if new_price != occupation.cost:
+                                                occupation.change_cost(new_price)
+                                            if new_name != occupation.name:
+                                                occupation.rename(new_name)
                                             st.rerun()
                                     if st.button(
                                         "🗑️ Supprimer",
