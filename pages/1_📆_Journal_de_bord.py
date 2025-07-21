@@ -245,14 +245,16 @@ for i, (place_name, objects) in enumerate(trip.data_file.items()):
                                             key=(
                                                 f"{place.name}_{day.name}"
                                                 f"_{type}_{occupation_name}_n"
-                                            )
+                                            ),
+                                            value=occupation.name
                                         )
                                         new_price = st.number_input(
                                             label="Prix (€)",
                                             key=(
                                                 f"{place.name}_{day.name}"
                                                 f"_{type}_{occupation_name}_price"
-                                            )
+                                            ),
+                                            value=occupation.cost
                                         )
                                         if st.button(
                                             "Enregistrer",
