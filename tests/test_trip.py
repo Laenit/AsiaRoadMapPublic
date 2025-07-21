@@ -32,7 +32,6 @@ def test_it_initialise_trip():
         INPUT_ROUTE_PATH
     )
     trip.get_places_from_file()
-    print(trip.places)
     trip.get_trip_from_place()
 
     assert (

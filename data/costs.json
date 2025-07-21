@@ -1,0 +1,17 @@
+{
+  "Avion": {
+    "cost": 800.0,
+    "buyer": "Les deux",
+    "category": "Administratif"
+  },
+  "Remboursement vaccin": {
+    "cost": -100.0,
+    "buyer": "Tina\u00ebl",
+    "category": "Sant\u00e9"
+  },
+  "Vaccin": {
+    "cost": 300.0,
+    "buyer": "Tina\u00ebl",
+    "category": "Sant\u00e9"
+  }
+}
