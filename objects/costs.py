@@ -24,14 +24,23 @@ class Costs(GenericObejct):
         self.delete_item(path)
 
     def get_costs_dataframe(self):
-        names = []
-        costs = []
-        buyers = []
-        categories = []
-        for name, data in self.data_file.items():
-            names.append(name)
-            costs.append(data["cost"])
-            buyers.append(data["buyer"])
-            categories.append(data["category"])
-        self.costs_dataframe = pd.DataFrame({"cost": costs, "buyer": buyers, "category": categories})
+        columns_label = [
+            "cost",
+            "buyer",
+            "category",
+        ]
+        self.costs_dataframe = pd.DataFrame.from_dict(
+            self.data_file,
+            orient="index",
+            columns=columns_label
+        )
+        self.costs_dataframe.rename(columns={"cost": "total_cost"}, inplace=True)
+        self.costs_dataframe["Marie_cost"] = self.costs_dataframe.apply(
+            lambda row: row["total_cost"] if row["buyer"] in ["Marie", "Les deux"] else 0,
+            axis=1
+        )
+        self.costs_dataframe["Tinael_cost"] = self.costs_dataframe.apply(
+            lambda row: row["total_cost"] if row["buyer"] in ["Tinaël", "Les deux"] else 0,
+            axis=1
+        )
         return self.costs_dataframe

@@ -1,7 +1,5 @@
 import streamlit as st
 import plotly.express as px
-import pandas as pd
-from utils.json_utils import load_data, save_data
 from objects.trip import Trip
 from objects.costs import Costs
 
@@ -12,192 +10,151 @@ trip.get_travel_time_and_routes_from_file()
 
 costs = Costs()
 
-# --- Calcul total par ville
-def calc_costs_per_ville(data):
-    result = {}
-    for ville, cats in data.items():
-        total = 0
-        for cat, jours in cats.items():
-            if cat == "Jours":
-                for jour, details in jours.items():
-                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
-                        for name in details.get(cats, {}):
-                            total += data[ville][cat][jour][cats][name]
-                result[ville] = total
-    return result
-
-
-# --- Calcul des coûts totaux par catégorie (hors admin)
-def calc_costs_villes(data):
-    total = {"Activites": 0, "Repas": 0, "Transports": 0, "Hebergements": 0}
-    for ville, options in data.items():
-        for option, jours in options.items():
-            if option == "Jours":
-                for jour, details in jours.items():
-                    for cat in total.keys():
-                        for name in details.get(cat, {}):
-                            total[cat] += data[ville][option][jour][cat][name]
-    return total
-
-
-# --- Calcul budget jour par jour (villes + admin)
-def calc_budget_jour(data, admin_costs):
-    budget_jour = {}
-    for ville, cats in data.items():
-        for cat, jours in cats.items():
-            if cat == "Jours":
-                for jour, details in jours.items():
-                    total = 0
-                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
-                        for name in details.get(cats, {}):
-                            total += data[ville][cat][jour][cats][name]
-                    budget_jour[jour] = budget_jour.get(jour, 0) + total
-
-            # Ajouter admin à chaque jour concerné
-            for jour, montant in admin_costs.items():
-                budget_jour[jour] = budget_jour.get(jour, 0) + montant
-
-    # Tri chronologique par numéro de jour (ex: "Jour 1", "Jour 2", ...)
-    sorted_budget = sorted(budget_jour.items(), key=lambda x: int(x[0].split()[1]))
-    return sorted_budget
-
 
 # --- Interface Streamlit
 st.title("💰 Gestion du budget du voyage")
 
-voyage_data = load_data(TRIP_FILE)
-admin_costs = load_data(ADMIN_FILE)
-
 # --- Formulaire ajout/modification dépense admin
 st.header("🗂️ Gestion des dépenses administratives")
 with st.form("admin_form"):
-    nom = st.text_input("Nom de la dépense administrative")
-    montant = st.number_input("Montant pour deux (€)", min_value=0.0, format="%.2f")
+    name = st.text_input("Nom de la dépense")
+    price = st.number_input("Montant pour une personne (€)", format="%.2f")
+    buyer = st.selectbox(
+        "Pour qui ?",
+        [
+            "Les deux",
+            "Marie",
+            "Tinaël"
+        ]
+    )
+    type = st.selectbox(
+        "Type de dépense",
+        [
+            "Equipement",
+            "Administratif",
+            "Souvenir",
+            "Santé"
+        ]
+    )
     submitted = st.form_submit_button("Enregistrer")
     if submitted:
-        if nom.strip() == "":
+        if name.strip() == "":
             st.error("Le nom ne peut pas être vide")
         else:
-            admin_costs[nom] = admin_costs.get(nom, 0) + montant
-            save_data(admin_costs, ADMIN_FILE)
+            costs.create_cost(
+                name,
+                price,
+                buyer,
+                type
+            )
             st.success(
-                f"Dépense administrative ajoutée/modifiée :"
-                f"{nom} = {admin_costs[nom]:.2f} €"
+                "Dépense administrative ajoutée !"
             )
             st.rerun()
 
 
-if admin_costs:
+if costs.data_file:
     # En-têtes
-    header_cols = st.columns([0.1, 0.3, 0.3, 0.3])
-    header_cols[0].markdown("**✔️**")
-    header_cols[1].markdown("**Nom**")
-    header_cols[2].markdown("**Montant (€)**")
-    header_cols[3].markdown("**Supprimer**")
+    header_cols = st.columns([3, 3, 3, 3, 3])
+    header_cols[0].markdown("**Nom**")
+    header_cols[1].markdown("**Montant (€)**")
+    header_cols[2].markdown("**Catégorie**")
+    header_cols[3].markdown("**Pour qui ?**")
+    header_cols[4].markdown("**Supprimer**")
 
-    for nom, montant in admin_costs.items():
-        cols = st.columns([0.1, 0.3, 0.3, 0.3])
-        cols[0].checkbox(
-            " ", value=False, label_visibility="collapsed", key=f"visu_check_{nom}"
-        )
-        cols[1].write(nom)
-        cols[2].write(f"{montant:.2f}")
-        if cols[3].button("🗑️", key=f"delete_{nom}"):
-            del admin_costs[nom]
-            save_data(admin_costs, ADMIN_FILE)
-            st.success(f"Dépense administrative supprimée : {nom}")
+    for name, data in costs.data_file.items():
+        cols = st.columns([3, 3, 3, 3, 3])
+        cols[0].write(name)
+        cols[1].write(f"{data["cost"]:.2f}")
+        cols[2].write(f"{data["category"]}")
+        cols[3].write(f"{data["buyer"]}")
+        if cols[4].button("🗑️", key=f"delete_{name}"):
+            costs.delete_cost(name)
+            st.success("Dépense administrative supprimée !")
             st.rerun()
-else:
-    st.info("Aucune dépense administrative enregistrée.")
 
 # --- Calcul dépenses par ville
-depenses_villes = calc_costs_per_ville(voyage_data)
+place_dataframe = trip.get_places_dataframe()
+cost_dataframe = costs.get_costs_dataframe()
 
 # --- Totaux
-total_villes = sum(depenses_villes.values())
-total_admin = sum(admin_costs.values())
-total_global = total_villes + total_admin
+total_villes = place_dataframe["cost"].sum()
+total_marie = cost_dataframe["Marie_cost"].sum()
+total_tinael = cost_dataframe["Tinael_cost"].sum()
+total_marie_global = total_villes/2 + total_marie
+total_tinael_global = total_villes/2 + total_tinael
 
-st.header(f"💸 Dépenses totales : {total_global:.2f} €")
+st.header(f"💸 Dépenses totales Marie : {total_marie_global:.2f} €")
+st.header(f"💸 Dépenses totales Tinaël : {total_tinael_global:.2f} €")
 
 
 # --- Tableau résumé par ville + admin
-# Préparer dataframe
-depense_label = "Dépenses villes (€)"
-df = pd.DataFrame.from_dict(
-    depenses_villes, orient='index', columns=[depense_label]
-)
-df.index.name = "Ville"
-df.reset_index(inplace=True)
+st.subheader("📋 Récapitulatif des dépenses par ville")
+st.table(place_dataframe)
 
-# Ajouter ligne admin (somme de toutes dépenses admin sous une seule ligne)
-df_admin = pd.DataFrame(
-    [["Administratif", total_admin]], columns=["Ville", depense_label]
-)
-df = pd.concat([df, df_admin], ignore_index=True)
-
-# Ajouter ligne total général
-df_total = pd.DataFrame([["TOTAL", total_global]], columns=["Ville", depense_label])
-df = pd.concat([df, df_total], ignore_index=True)
-
-st.subheader("📋 Récapitulatif des dépenses")
-st.table(df)
+days_dataframe = trip.get_trip_days_dataframe()
 
 # Camembert
 # Calcul des totaux par catégorie (hors admin)
-totaux_cat = calc_costs_villes(voyage_data)
+types = ["Activites", "Repas", "Transports", "Hebergements"]
+costs_type = []
+for type in types:
+    costs_type.append(trip.get_trip_type_cost(type)/2)
 
-# Ajouter les coûts admin dans la catégorie 'Administratif'
-totaux_cat["Administratif"] = total_admin
+categories = ["Equipement", "Administratif", "Souvenir", "Santé"]
+costs_category_marie = []
+costs_category_tinael = []
+for category in categories:
+    costs_category_marie.append(
+        cost_dataframe[cost_dataframe["category"] == category]["Marie_cost"].sum()
+    )
+    costs_category_tinael.append(
+        cost_dataframe[cost_dataframe["category"] == category]["Tinael_cost"].sum()
+    )
 
 # Préparer données pour camembert
-labels_cat = list(totaux_cat.keys())
-values_cat = list(totaux_cat.values())
+labels_cat = types + categories
+costs_repartition_marie = costs_type + costs_category_marie
+costs_repartition_tinael = costs_type + costs_category_tinael
 
-fig_cat = px.pie(
+fig_cat_marie = px.pie(
     names=labels_cat,
-    values=values_cat,
-    title="Répartition globale des dépenses par catégorie",
+    values=costs_repartition_marie,
+    title="Répartition des dépenses de Marie",
+    hole=0.3,
+    color_discrete_sequence=px.colors.qualitative.Pastel,
+)
+fig_cat_tinael = px.pie(
+    names=labels_cat,
+    values=costs_repartition_tinael,
+    title="Répartition des dépenses de Tinaël",
     hole=0.3,
     color_discrete_sequence=px.colors.qualitative.Pastel,
 )
 
-st.plotly_chart(fig_cat, use_container_width=True)
+cols = st.columns([1, 1])
+with cols[0]:
+    st.plotly_chart(fig_cat_marie, use_container_width=True)
+with cols[1]:
+    st.plotly_chart(fig_cat_tinael, use_container_width=True)
 
 # --- Graphique d'évolution du budget jour par jour (hors admin)
 
 
-# Recalculer le budget par jour sans les coûts admin
-def calc_budget_jour_sans_admin_ordered(data):
-    budget_jour = []
-    jour_global = 1
-
-    for ville, cats in data.items():
-        for cat, jours in cats.items():
-            if cat == "Jours":
-                for jour, details in jours.items():
-                    total = 0
-                    for cats in ["Activites", "Repas", "Transports", "Hebergements"]:
-                        for name in details.get(cats, {}):
-                            total += data[ville][cat][jour][cats][name]
-                    budget_jour.append((f"Jour {jour_global}", total))
-                    jour_global += 1
-
-    return budget_jour
-
-
 # Données pour graphique
-budget_par_jour = calc_budget_jour_sans_admin_ordered(voyage_data)
-jours = [item[0] for item in budget_par_jour]
-montants = [item[1] for item in budget_par_jour]
+total_days = sum(place["days"] for place in trip.places)
+
+days = [f"Jour {i+1}" for i in range(total_days)]
+costs = [days_dataframe.iloc[i]["cost"] for i in range(total_days)]
+
 
 # Tracer le graphique en courbe
 fig_jours = px.line(
-    x=jours,
-    y=montants,
+    x=days,
+    y=costs,
     markers=True,
     labels={"x": "Jour", "y": "Dépenses (€)"},
-    title="Évolution des dépenses par jour (hors administratif)",
+    title="Évolution des dépenses par jour",
 )
 
 st.plotly_chart(fig_jours, use_container_width=True)

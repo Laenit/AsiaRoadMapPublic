@@ -1,7 +1,13 @@
 {
   "Bangkok": {
     "Jour 1": {
-      "Activites": {},
+      "Activites": {
+        "afa": {
+          "cost": 30.0,
+          "payement_status": false,
+          "day": null
+        }
+      },
       "Repas": {},
       "Transports": {},
       "Hebergements": {
@@ -18,7 +24,7 @@
       "afa": {
         "cost": 30.0,
         "payement_status": false,
-        "day": null
+        "day": "Jour 1"
       }
     },
     "Hebergements": {
@@ -43,7 +49,7 @@
       },
       "Transports": {
         "Trajet vers Siem Reap": {
-          "cost": 320,
+          "cost": 50,
           "payement_status": false,
           "day": "Jour 1"
         }

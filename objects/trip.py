@@ -120,8 +120,17 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
             place_df = self.get_days_dataframe(data["days"], data["city"])
             place_df["place"] = [data["city"]] * data["days"]
             final_dataframe = pd.concat([final_dataframe, place_df])
-        print(final_dataframe)
         final_dataframe["day_number_trip"] = final_dataframe.apply(
             lambda row: self.get_day_trip_number(row["place"], row["day_number"]), axis=1
         )
         return final_dataframe
+
+    def get_trip_type_cost(self, type):
+        type_cost = 0
+        for place in self.places:
+            type_cost += self.get_place_type_cost(
+                type,
+                place["days"],
+                place["city"]
+            )
+        return type_cost

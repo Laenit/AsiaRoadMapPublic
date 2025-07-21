@@ -43,11 +43,15 @@ def test_it_returns_costs_dataframe():
     costs.create_cost(
         "Sac",
         100,
-        "Tinael",
+        "Tinaël",
         "Equipement"
     )
     costs.get_costs_dataframe()
 
     assert (
-        costs.costs_dataframe["cost"].sum() == 120
+        costs.costs_dataframe["total_cost"].sum() == 120
+    )
+
+    assert (
+        costs.costs_dataframe["Marie_cost"].sum() == 20
     )
