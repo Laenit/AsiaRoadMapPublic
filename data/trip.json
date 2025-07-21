@@ -1,61 +1,21 @@
 {
   "Bangkok": {
     "Jour 1": {
-      "Activites": {
-        "vbn,;": {
-          "cost": 20.0,
-          "payement_status": false,
-          "day": null
-        }
-      },
-      "Repas": {
-        "za": {
-          "cost": 0.0,
-          "payement_status": false,
-          "day": "Jour 1"
-        }
-      },
-      "Transports": {
-        "": {
-          "cost": 0.0,
-          "payement_status": false,
-          "day": "Jour 1"
-        }
-      },
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
       "Hebergements": {}
     },
-    "Activites": {
-      "vbn,;": {
-        "cost": 20.0,
-        "payement_status": false,
-        "day": "Jour 1"
-      },
-      "zdgnae": {
-        "cost": 20.0,
-        "payement_status": false,
-        "day": null
-      }
-    },
+    "Activites": {},
     "Hebergements": {}
   },
   "Siem Reap": {
     "Jour 1": {
       "Activites": {},
-      "Repas": {
-        "agdqs": {
-          "cost": 0.0,
-          "payement_status": false,
-          "day": "Jour 1"
-        }
-      },
+      "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Siem Reap": {
-          "cost": 0,
+          "cost": 30,
           "payement_status": false,
           "day": "Jour 1"
         }
@@ -94,11 +54,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Battambang": {
           "cost": 0,
           "payement_status": false,
@@ -121,11 +76,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Phnom Penh": {
           "cost": 0,
           "payement_status": false,
@@ -166,11 +116,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Kampong Cham": {
           "cost": 0,
           "payement_status": false,
@@ -187,11 +132,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Kratie": {
           "cost": 0,
           "payement_status": false,
@@ -214,11 +154,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Banlung": {
           "cost": 0,
           "payement_status": false,
@@ -253,11 +188,6 @@
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "": {
-          "cost": 0,
-          "payement_status": false,
-          "day": "Jour 1"
-        },
         "Trajet vers Stoeng Treng": {
           "cost": 0,
           "payement_status": false,
