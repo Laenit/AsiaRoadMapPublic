@@ -1,0 +1,86 @@
+{
+  "places": [
+    {
+      "city": "Bangkok",
+      "days": 1,
+      "description": "1 jours",
+      "coordinates": "100.5017651,13.7563309,0",
+      "lon": 100.5017651,
+      "lat": 13.7563309
+    },
+    {
+      "city": "Siem Reap",
+      "days": 5,
+      "description": "5 jours",
+      "coordinates": "103.856403,13.3632533,0",
+      "lon": 103.856403,
+      "lat": 13.3632533
+    },
+    {
+      "city": "Battambang",
+      "days": 2,
+      "description": "2 jours",
+      "coordinates": "103.2022055,13.09573,0",
+      "lon": 103.2022055,
+      "lat": 13.09573
+    },
+    {
+      "city": "Phnom Penh",
+      "days": 5,
+      "description": "5 jours",
+      "coordinates": "104.9282099,11.5563738,0",
+      "lon": 104.9282099,
+      "lat": 11.5563738
+    },
+    {
+      "city": "Kampong Cham",
+      "days": 1,
+      "description": "1 jours",
+      "coordinates": "105.4645408,11.9924294,0",
+      "lon": 105.4645408,
+      "lat": 11.9924294
+    },
+    {
+      "city": "Kratie",
+      "days": 2,
+      "description": "2 jours",
+      "coordinates": "106.0287512,12.4896877,0",
+      "lon": 106.0287512,
+      "lat": 12.4896877
+    },
+    {
+      "city": "Banlung",
+      "days": 4,
+      "description": "4 jours",
+      "coordinates": "106.9915266,13.7379334,0",
+      "lon": 106.9915266,
+      "lat": 13.7379334
+    },
+    {
+      "city": "Stoeng Treng",
+      "days": 1,
+      "description": "1 jours",
+      "coordinates": "105.9676931,13.5069103,0",
+      "lon": 105.9676931,
+      "lat": 13.5069103
+    }
+  ],
+  "travel_times": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "routes_geojson": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ]
+}

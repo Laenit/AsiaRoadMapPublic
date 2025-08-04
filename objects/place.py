@@ -62,5 +62,5 @@ class Place(GenericObejct, DayPlaceMixin):
             }
         )
 
-    def delete_place(self):
-        self.delete_item(self.path)
+    def delete_place_for_place(self):
+        self.delete_place(self.name)

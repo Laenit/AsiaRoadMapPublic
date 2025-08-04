@@ -15,21 +15,15 @@ trip.get_trip_from_place()
 trip.get_travel_time_and_routes_from_file()
 
 
-# Ajout : On synchronise trip.places si nécessaire
-if len(trip.places) != len(trip.data_file):
-    trip.data_file = {p["city"]: {} for p in trip.places}
-
-for i, (place_name, objects) in enumerate(trip.data_file.items()):
+for i, place in enumerate(trip.places):
     place = Place(
-        place_name,
-        trip.places[i]["days"],
+        place["city"],
+        place["days"],
     )
     with st.expander(
         f"**Etape {i+1} - {place.name}** : {place.days_number} jour(s)"
     ):
-        if st.button("Supprimer l'étape", key=f"{place.name}, sup"):
-            place.delete_place()
-            st.rerun()
+        objects = trip.data_file[place.name]
 
         for j, (day_name, occupations) in enumerate(objects.items()):
             if day_name.startswith("Jour"):

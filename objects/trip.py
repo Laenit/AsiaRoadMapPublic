@@ -27,7 +27,16 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         self.routes_geojson = None
 
     def initialize_places(self, url):
-        self.places = self.get_place_from_kml_url(url)
+        route_data = load_data(self.route_path)
+        previous_places = route_data.get("places", [])
+        new_places = self.get_place_from_kml_url(url)
+        self.places = new_places
+        if new_places != previous_places:
+            save_data({
+                "places": self.places,
+                "travel_times": [None] * (len(self.places) - 1),
+                "routes_geojson": [None] * (len(self.places) - 1)
+            }, self.route_path)
 
     def get_places_from_file(self):
         self.places = load_data(self.route_path)["places"]
@@ -37,8 +46,11 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         for city in self.data_file:
             existing_cities.append(city)
         for place in self.places:
-            if place['city'] not in existing_cities:
+            if place["city"] not in existing_cities:
                 self.create_place(place["city"], place["days"])
+        for city in existing_cities:
+            if city not in [place["city"] for place in self.places]:
+                self.delete_place(city)
 
     def get_travel_time_and_routes_from_file(self):
         self.travel_times = load_data(self.route_path)["travel_times"]
@@ -48,7 +60,6 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         # --- Charger ou initialiser les données de route.json ---
         if os.path.exists(self.route_path):
             route_data = load_data(self.route_path)
-            self.places = route_data.get("places", [])
             self.travel_times = route_data.get("travel_times", [])
             self.routes_geojson = route_data.get("routes_geojson", [])
         else:

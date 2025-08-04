@@ -1,1 +1,208 @@
-{}
+{
+  "Bangkok": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Siem Reap": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Siem Reap": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 5": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Phnom Penh": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Phnom Penh": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 5": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Kampong Cham": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Kampong Cham": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Kratie": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Kratie": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Banlung": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Banlung": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Stoeng Treng": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Stoeng Treng": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Battambang": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Battambang": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  }
+}

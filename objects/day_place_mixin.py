@@ -26,6 +26,9 @@ class DayPlaceMixin:
                 [name] + [occupation]
             )
 
+    def delete_place(self, place_name):
+        self.delete_item([place_name])
+
     def get_type_dataframe(self, type, path_day):
         type_path = path_day + [type]
         occupations = self.get_information(type_path)

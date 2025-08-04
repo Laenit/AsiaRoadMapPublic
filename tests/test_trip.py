@@ -9,6 +9,9 @@ INPUT_ROUTE_PATH = os.path.join(REPO_PATH, "tests", "data", "route_input.json")
 OUTPUT_DATA_PATH = os.path.join(
     REPO_PATH, "tests", "data", "output", "trip", "trip_output.json"
 )
+OUTPUT_ROUTE_PATH = os.path.join(
+    REPO_PATH, "tests", "data", "output", "trip", "route_output.json"
+)
 FULL_OUTPUT_PATH = os.path.join(REPO_PATH, "tests", "data", "output", "trip", "full_trip.json")
 
 
@@ -16,7 +19,7 @@ def test_it_initializes_places():
     trip = Trip(
         INPUT_DATA_PATH,
         OUTPUT_DATA_PATH,
-        INPUT_ROUTE_PATH
+        OUTPUT_ROUTE_PATH
     )
     trip.initialize_places(url=st.secrets["KML_URL"])
 
