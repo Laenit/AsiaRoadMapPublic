@@ -9,3 +9,4 @@ def load_data(data_file):
 def save_data(data, data_file):
     with open(data_file, "w") as f:
         json.dump(data, f, indent=2)
+        f.flush()
