@@ -33,7 +33,7 @@
       "Repas": {},
       "Transports": {
         "Trajet vers Siem Reap": {
-          "cost": 0,
+          "cost": 20,
           "payement_status": false,
           "day": "Jour 1"
         }
