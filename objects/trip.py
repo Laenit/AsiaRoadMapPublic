@@ -48,6 +48,28 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
         for place in self.places:
             if place["city"] not in existing_cities:
                 self.create_place(place["city"], place["days"])
+            number_of_days = len(self.data_file[place["city"]]) - 2
+            if place["days"] > number_of_days:
+                for i in range(place["days"] - number_of_days):
+                    self.create_day(
+                        [
+                            place["city"],
+                            f"Jour {i + 1 + number_of_days}"
+                        ]
+                    )
+            if place["days"] < number_of_days:
+                for i in range(place["days"] - number_of_days):
+                    self.delete_day(
+                        [
+                            place["city"],
+                            f"Jour {number_of_days - (i + 1)}"
+                        ]
+                    )
+            keys_end = ["Activites", "Hebergements"]
+            keys_days = sorted(day for day in self.data_file[place["city"]] if day not in keys_end)
+            self.data_file[place["city"]] = {
+                key: self.data_file[place["city"]][key] for key in keys_days + keys_end
+            }
         for city in existing_cities:
             if city not in [place["city"] for place in self.places]:
                 self.delete_place(city)

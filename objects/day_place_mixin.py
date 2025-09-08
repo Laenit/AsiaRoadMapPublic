@@ -26,6 +26,9 @@ class DayPlaceMixin:
                 [name] + [occupation]
             )
 
+    def delete_day(self, path):
+        self.delete_item(path)
+
     def delete_place(self, place_name):
         self.delete_item([place_name])
 

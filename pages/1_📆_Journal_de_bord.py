@@ -25,12 +25,13 @@ for i, place in enumerate(trip.places):
     ):
         objects = trip.data_file[place.name]
 
-        for j, (day_name, occupations) in enumerate(objects.items()):
+        for day_name, occupations in objects.items():
             if day_name.startswith("Jour"):
+                day_number = int(day_name[-1])
                 day = Day(
                     place.name,
-                    j + 1,
-                    trip.get_day_trip_number(place.name, j + 1),
+                    day_number,
+                    trip.get_day_trip_number(place.name, day_number),
                 )
                 with st.expander(f"📅 {day.name}"):
                     for type, items in occupations.items():

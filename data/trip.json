@@ -7,7 +7,25 @@
       "Hebergements": {}
     },
     "Activites": {},
-    "Hebergements": {}
+    "Hebergements": {},
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    }
   },
   "Siem Reap": {
     "Jour 1": {
@@ -161,12 +179,12 @@
     "Activites": {},
     "Hebergements": {}
   },
-  "Stoeng Treng": {
+  "Battambang": {
     "Jour 1": {
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "Trajet vers Stoeng Treng": {
+        "Trajet vers Battambang": {
           "cost": 0,
           "payement_status": false,
           "day": "Jour 1"
@@ -174,15 +192,89 @@
       },
       "Hebergements": {}
     },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
     "Activites": {},
     "Hebergements": {}
   },
-  "Battambang": {
+  "Don Det": {
     "Jour 1": {
       "Activites": {},
       "Repas": {},
       "Transports": {
-        "Trajet vers Battambang": {
+        "Trajet vers Don Det": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Paks\u00e9": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Paks\u00e9": {
+          "cost": 0,
+          "payement_status": false,
+          "day": "Jour 1"
+        }
+      },
+      "Hebergements": {}
+    },
+    "Jour 2": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 3": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Jour 4": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {},
+      "Hebergements": {}
+    },
+    "Activites": {},
+    "Hebergements": {}
+  },
+  "Ban Khiet Ngong": {
+    "Jour 1": {
+      "Activites": {},
+      "Repas": {},
+      "Transports": {
+        "Trajet vers Ban Khiet Ngong": {
           "cost": 0,
           "payement_status": false,
           "day": "Jour 1"
