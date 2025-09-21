@@ -1,8 +1,8 @@
-import os
 from objects.generic_object import GenericObejct
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
+TRIP_ID = st.secrets["trip_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
 
 
 class Occupation(GenericObejct):

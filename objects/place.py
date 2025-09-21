@@ -1,11 +1,12 @@
-import os
 from objects.generic_object import GenericObejct
 from objects.day_place_mixin import DayPlaceMixin
 import pandas as pd
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
-ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
+TRIP_ID = st.secrets["trip_id"]
+ROUTE_ID = st.secrets["route_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
+ROUTE_PATH = f"https://api.jsonbin.io/v3/b/{ROUTE_ID}"
 
 
 class Place(GenericObejct, DayPlaceMixin):

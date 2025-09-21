@@ -1,13 +1,14 @@
 import streamlit as st
 from objects.trip import Trip
-import os
 from utils.utils import format_duration_hm
 
 # --- CONFIG ---
 ORS_API_KEY = st.secrets["ORS_API_KEY"]
 KML_URL = st.secrets["KML_URL"]
-DATA_FILE = os.path.join("data", "trip.json")
-ROUTE_FILE = os.path.join("data", "route.json")
+TRIP_ID = st.secrets["trip_id"]
+ROUTE_ID = st.secrets["route_id"]
+DATA_FILE = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
+ROUTE_FILE = f"https://api.jsonbin.io/v3/b/{ROUTE_ID}"
 
 trip = Trip(
     DATA_FILE,

@@ -1,4 +1,3 @@
-import os
 from objects.generic_object import GenericObejct
 from objects.day_place_mixin import DayPlaceMixin
 from utils.kml_mixin import KMLMixin
@@ -6,10 +5,12 @@ from utils.json_utils import load_data, save_data
 from utils.travel_times_route import compute_travel_time_and_route
 import time
 import pandas as pd
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
-ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
+TRIP_ID = st.secrets["trip_id"]
+ROUTE_ID = st.secrets["route_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
+ROUTE_PATH = f"https://api.jsonbin.io/v3/b/{ROUTE_ID}"
 
 
 class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
@@ -76,19 +77,10 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
 
     def get_travel_time_and_routes_from_file(self):
         self.travel_times = load_data(self.route_path)["travel_times"]
-        self.routes_geojson = load_data(self.route_path)["routes_geojson"]
 
     def get_travel_time_and_routes(self, ors_api_key):
-        # --- Charger ou initialiser les données de route.json ---
-        if os.path.exists(self.route_path):
-            route_data = load_data(self.route_path)
-            self.travel_times = route_data.get("travel_times", [])
-            self.routes_geojson = route_data.get("routes_geojson", [])
-        else:
-            route_data = {}
-            self.places = []
-            self.travel_times = []
-            self.routes_geojson = []
+        route_data = load_data(self.route_path)
+        self.travel_times = route_data.get("travel_times", [])
 
         # --- Calculer les trajets manquants ---
         for i in range(len(self.places) - 1):
@@ -99,7 +91,6 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
             if (
                 self.travel_times[i] is not None
                 and self.travel_times[i] > 0
-                and self.routes_geojson[i] is not None
             ):
                 continue
 
@@ -107,16 +98,13 @@ class Trip(GenericObejct, KMLMixin, DayPlaceMixin):
                 from_place, to_place, ors_api_key
             )
             self.travel_times[i] = travel_time
-            self.routes_geojson[i] = route_geojson
 
             # Sauvegarder après chaque étape pour ne rien perdre
-            save_data({
-                "places": self.places,
-                "travel_times": self.travel_times,
-                "routes_geojson": self.routes_geojson
-            }, self.route_path)
-
-            time.sleep(0.5)
+            time.sleep(0.1)
+        save_data({
+            "places": self.places,
+            "travel_times": self.travel_times
+        }, self.route_path)
 
     def get_places_dataframe(self):
         costs = []
