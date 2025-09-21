@@ -1,9 +1,10 @@
-import os
 import pandas as pd
 from objects.generic_object import GenericObejct
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "costs.json")
+
+COSTS_ID = st.secrets["costs_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{COSTS_ID}"
 
 
 class Costs(GenericObejct):

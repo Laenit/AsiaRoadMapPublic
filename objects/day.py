@@ -1,9 +1,10 @@
-import os
 from objects.generic_object import GenericObejct
 from objects.day_place_mixin import DayPlaceMixin
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
+
+TRIP_ID = st.secrets["trip_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
 
 
 class Day(GenericObejct, DayPlaceMixin):

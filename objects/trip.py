@@ -6,10 +6,12 @@ from utils.json_utils import load_data, save_data
 from utils.travel_times_route import compute_travel_time_and_route
 import time
 import pandas as pd
+import streamlit as st
 
-REPO_PATH = os.getcwd()
-DATA_PATH = os.path.join(REPO_PATH, "data", "trip.json")
-ROUTE_PATH = os.path.join(REPO_PATH, "data", "route.json")
+TRIP_ID = st.secrets["trip_id"]
+ROUTE_ID = st.secrets["route_id"]
+DATA_PATH = f"https://api.jsonbin.io/v3/b/{TRIP_ID}"
+ROUTE_PATH = f"https://api.jsonbin.io/v3/b/{ROUTE_ID}"
 
 
 class Trip(GenericObejct, KMLMixin, DayPlaceMixin):

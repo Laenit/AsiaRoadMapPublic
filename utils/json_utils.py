@@ -1,12 +1,18 @@
-import json
+import requests
+import streamlit as st
+
+API_KEY = st.secrets["jsonbin_api_key"]
+headers = {
+    "X-Master-Key": API_KEY,
+    "Content-Type": "application/json"
+}
 
 
 def load_data(data_file):
-    with open(data_file, "r") as f:
-        return json.load(f)
+    res = requests.get(data_file, headers=headers)
+    return res.json()["record"]
 
 
 def save_data(data, data_file):
-    with open(data_file, "w") as f:
-        json.dump(data, f, indent=2)
-        f.flush()
+    res = requests.put(data_file, headers=headers, json=data)
+    return res.json()
