@@ -30,19 +30,13 @@ def compute_travel_time_and_route(
         (to_place['lon'], to_place['lat'])
     ]
 
-    try:
-        route = client.directions(
-            coords, profile=profile, format='geojson'
-        )
-        duration_sec = route['features'][0]['properties']['segments'][0]['duration']
-        travel_time_hours = round(duration_sec / 3600, 2)
+    route = client.directions(
+        coords, profile=profile, format='geojson', radiuses=[2000, 2000]
+    )
+    duration_sec = route['features'][0]['properties']['segments'][0]['duration']
+    travel_time_hours = round(duration_sec / 3600, 2)
 
-        # Ajouter le temps au GeoJSON pour simplifier l’affichage
-        route['features'][0]['properties']['custom_duration'] = travel_time_hours
+    # Ajouter le temps au GeoJSON pour simplifier l’affichage
+    route['features'][0]['properties']['custom_duration'] = travel_time_hours
 
-        return travel_time_hours, route['features'][0]
-
-    except Exception as e:
-        # Log ou afficher l'erreur
-        print(f"Erreur ORS entre {from_place['name']} et {to_place['name']}: {e}")
-        return 0, None
+    return travel_time_hours, route['features'][0]
